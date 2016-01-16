@@ -1,6 +1,9 @@
 
 package org.usfirst.frc.team3729.robot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Talon;
@@ -63,10 +66,10 @@ public class Robot extends IterativeRobot {
 		case defaultAuto:
 		default:
 			CanTalonSRX frontRight, frontLeft, backRight, backLeft;
-			frontRight = new CanTalonSRX(0);
+			frontLeft = new CanTalonSRX(0);
 			backRight = new CanTalonSRX(1);
-			backLeft = new CanTalonSRX(2);
-			frontLeft = new CanTalonSRX(3);
+			frontRight = new CanTalonSRX(2);
+			backLeft = new CanTalonSRX(3);
 
 			frontRight.Set(.5);
 			backRight.Set(.5);
@@ -93,49 +96,76 @@ public class Robot extends IterativeRobot {
 		double leftMotorInput = 0;
 		double rightMotorInput = 0;
 		double deadZone = 0.2;
+		double innerTurnDampener = 0.25;
 
 		// System.out.println(forwardInput);
 		// System.out.println(turnInput + "turn");
 
-		if (forwardInput > deadZone && turnInput > deadZone) {
-			leftMotorInput = forwardInput;
-			rightMotorInput = turnInput * .25;
-			// Turn Forward Right
-		} else if (forwardInput <= deadZone && forwardInput >= -deadZone && turnInput > deadZone) {
-			leftMotorInput = -turnInput;
-			rightMotorInput = turnInput;
-			// Spin Right
-		} else if (forwardInput > deadZone && turnInput <= deadZone && turnInput >= -deadZone) {
-			leftMotorInput = forwardInput;
-			rightMotorInput = forwardInput;
-			// Move Forward
-		} else if (forwardInput > deadZone && turnInput < deadZone) {
-			rightMotorInput = forwardInput;
-			leftMotorInput = -turnInput * .25;
-			// Turn Forwards Left
-		} else if (forwardInput <= deadZone && forwardInput >= -deadZone && turnInput < -deadZone) {
-			rightMotorInput = turnInput;
-			leftMotorInput = -turnInput;
-			// Spin Left
-		} else if (forwardInput < -deadZone && turnInput < deadZone) {
-			rightMotorInput = forwardInput;
-			leftMotorInput = turnInput * .25;
-			// Turn Backwards Left
-		} else if (forwardInput < -deadZone && turnInput > -deadZone) {
-			leftMotorInput = forwardInput;
-			rightMotorInput = -turnInput * .25;
-			// Turn Backwards Left
-		} else {
-			rightMotorInput = forwardInput;
-			leftMotorInput = forwardInput;
-			// Move Backwards
-		}
-		frontRight.Set(rightMotorInput);
-		backRight.Set(rightMotorInput);
-		backLeft.Set(-leftMotorInput);
-		frontLeft.Set(-leftMotorInput);
+		// OLD WAY
+
+		// if (forwardInput > deadZone && turnInput > deadZone) {
+		// // Turn Forward Right
+		// leftMotorInput = forwardInput;
+		// rightMotorInput = turnInput * innerTurnDampener;
+		// } else if (forwardInput <= deadZone && forwardInput >= -deadZone &&
+		// turnInput > deadZone) {
+		// // Spin Right
+		// leftMotorInput = -turnInput;
+		// rightMotorInput = turnInput;
+		// } else if (forwardInput > deadZone && turnInput <= deadZone &&
+		// turnInput >= -deadZone) {
+		// // Move Forward
+		// leftMotorInput = forwardInput;
+		// rightMotorInput = forwardInput;
+		// } else if (forwardInput > deadZone && turnInput < deadZone) {//TODO
+		// Should this be negative?
+		// // Turn Forwards Left
+		// rightMotorInput = forwardInput;
+		// leftMotorInput = -turnInput * innerTurnDampener;
+		// } else if (forwardInput <= deadZone && forwardInput >= -deadZone &&
+		// turnInput < -deadZone) {
+		// // Spin Left
+		// rightMotorInput = turnInput;
+		// leftMotorInput = -turnInput;
+		// } else if (forwardInput < -deadZone && turnInput < deadZone) {//TODO
+		// Should this be negative?
+		// // Turn Backwards Left
+		// rightMotorInput = forwardInput;
+		// leftMotorInput = turnInput * innerTurnDampener;
+		// } else if (forwardInput < -deadZone && turnInput > -deadZone) {
+		// // Turn Backwards Left
+		// leftMotorInput = forwardInput;
+		// rightMotorInput = -turnInput * innerTurnDampener;
+		// } else {
+		// // Move Backwards
+		// rightMotorInput = forwardInput;
+		// leftMotorInput = forwardInput;
+		// }
+		//
+		// frontRight.Set(rightMotorInput);
+		// backRight.Set(rightMotorInput);
+		//
+		// // Left motors get the opposite input value because they are
+		// // mounted in a reverse direction.
+		// backLeft.Set(-leftMotorInput);
+		// frontLeft.Set(-leftMotorInput);
+
 		// System.out.println(leftMotorInput + "left");
 		// System.out.println(rightMotorInput + "right");
+
+		// NEW WAY - Let's implement this once we have
+		RobotDrive drive = new RobotDrive(deadZone, innerTurnDampener);
+		
+		List<CanTalonSRX> leftMotorGroup=new ArrayList<>();
+		List<CanTalonSRX> rightMotorGroup=new ArrayList<>();
+		
+		leftMotorGroup.add(frontLeft);
+		leftMotorGroup.add(backLeft);
+		
+		rightMotorGroup.add(frontRight);
+		rightMotorGroup.add(backRight);
+		
+		drive.Drive(forwardInput, turnInput, leftMotorGroup, rightMotorGroup, MotorMounting.LeftMotorsReversed);
 	}
 
 	/**
