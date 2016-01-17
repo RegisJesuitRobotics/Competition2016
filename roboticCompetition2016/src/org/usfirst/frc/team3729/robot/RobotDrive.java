@@ -2,6 +2,7 @@ package org.usfirst.frc.team3729.robot;
 
 import java.util.List;
 
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.hal.CanTalonSRX;
 
 /**
@@ -67,59 +68,82 @@ public class RobotDrive {
 	 */
 	public void Drive(double forwardInput, double turnInput, List<CanTalonSRX> leftMotorGroup,
 			List<CanTalonSRX> rightMotorGroup, MotorMounting motorMounting) {
-		double leftMotorGroupInput, rightMotorGroupInput;
+		MotorInput motorInput = DetermineMotorInputFromControllerOutput(forwardInput, turnInput, motorMounting);
+
+		// Now loop through all motors and set their values.
+		for (CanTalonSRX leftTalon : leftMotorGroup) {
+			leftTalon.Set(motorInput.getLeftMotorInput());
+		}
+
+		for (CanTalonSRX rightTalon : rightMotorGroup) {
+			rightTalon.Set(motorInput.getRightMotorInput());
+		}
+	}
+
+	public void DriveOldTalons(double forwardInput, double turnInput, List<Talon> leftMotorGroup,
+			List<Talon> rightMotorGroup, MotorMounting motorMounting) {
+
+		MotorInput motorInput = DetermineMotorInputFromControllerOutput(forwardInput, turnInput, motorMounting);
+
+		for (Talon leftTalon : leftMotorGroup) {
+			leftTalon.set(motorInput.getLeftMotorInput());
+		}
+
+		for (Talon rightTalon : rightMotorGroup) {
+			rightTalon.set(motorInput.getRightMotorInput());
+		}
+
+	}
+
+	private MotorInput DetermineMotorInputFromControllerOutput(double forwardInput, double turnInput,
+			MotorMounting motorMounting) {
+		MotorInput motorInput = new MotorInput();
 
 		if (forwardInput > _deadZone && turnInput > _deadZone) {
 			// Turn Forward Right
-			leftMotorGroupInput = forwardInput;
-			rightMotorGroupInput = turnInput * _innerTurnDampener;
+			motorInput.setLeftMotorInput(forwardInput);
+			motorInput.setRightMotorInput(turnInput * _innerTurnDampener);
 		} else if (forwardInput <= _deadZone && forwardInput >= -_deadZone && turnInput > _deadZone) {
 			// Spin Right
-			leftMotorGroupInput = -turnInput;
-			rightMotorGroupInput = turnInput;
+			motorInput.setLeftMotorInput(-turnInput);
+			motorInput.setRightMotorInput(turnInput);
 		} else if (forwardInput > _deadZone && turnInput <= _deadZone && turnInput >= -_deadZone) {
 			// Move Forward
-			leftMotorGroupInput = forwardInput;
-			rightMotorGroupInput = forwardInput;
+			motorInput.setLeftMotorInput(forwardInput);
+			motorInput.setRightMotorInput(forwardInput);
+			//
 		} else if (forwardInput > _deadZone && turnInput < _deadZone) {
 			// Turn Forwards Left
-			leftMotorGroupInput = forwardInput;
-			rightMotorGroupInput = -turnInput * _innerTurnDampener;
+			motorInput.setLeftMotorInput(forwardInput);
+			motorInput.setRightMotorInput(-turnInput * _innerTurnDampener);
 		} else if (forwardInput <= _deadZone && forwardInput >= -_deadZone && turnInput < -_deadZone) {
 			// Spin Left
-			leftMotorGroupInput = turnInput;
-			rightMotorGroupInput = -turnInput;
+			motorInput.setLeftMotorInput(turnInput);
+			motorInput.setRightMotorInput(-turnInput);
 		} else if (forwardInput < -_deadZone && turnInput < _deadZone) {
 			// Turn Backwards Left
-			leftMotorGroupInput = forwardInput;
-			rightMotorGroupInput = turnInput * _innerTurnDampener;
+			motorInput.setLeftMotorInput(forwardInput);
+			motorInput.setRightMotorInput(turnInput * _innerTurnDampener);
 		} else if (forwardInput < -_deadZone && turnInput > -_deadZone) {
 			// Turn Backwards Left
-			leftMotorGroupInput = forwardInput;
-			rightMotorGroupInput = -turnInput * _innerTurnDampener;
+			motorInput.setLeftMotorInput(forwardInput);
+			motorInput.setRightMotorInput(-turnInput * _innerTurnDampener);
 		} else {
 			// Move Backwards
-			leftMotorGroupInput = forwardInput;
-			rightMotorGroupInput = forwardInput;
+			motorInput.setLeftMotorInput(forwardInput);
+			motorInput.setRightMotorInput(forwardInput);
 		}
 
 		if (motorMounting == MotorMounting.LeftMotorsReversed) {
 			// Left motors get the opposite input value because they are
 			// mounted in a reverse direction.
-			leftMotorGroupInput = -leftMotorGroupInput;
+			motorInput.setLeftMotorInput(-motorInput.getLeftMotorInput());
 		} else if (motorMounting == MotorMounting.RightMotorsReversed) {
 			// Right motors get the opposite input value because they are
 			// mounted in a reverse direction.
-			rightMotorGroupInput = -rightMotorGroupInput;
+			motorInput.setRightMotorInput(-motorInput.getRightMotorInput());
 		}
 
-		// Now loop through all motors and set their values.
-		for (CanTalonSRX leftTalon : leftMotorGroup) {
-			leftTalon.Set(leftMotorGroupInput);
-		}
-
-		for (CanTalonSRX rightTalon : rightMotorGroup) {
-			rightTalon.Set(rightMotorGroupInput);
-		}
+		return motorInput;
 	}
 }

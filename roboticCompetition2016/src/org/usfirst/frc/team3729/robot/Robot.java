@@ -65,16 +65,16 @@ public class Robot extends IterativeRobot {
 			break;
 		case defaultAuto:
 		default:
-			CanTalonSRX frontRight, frontLeft, backRight, backLeft;
-			frontLeft = new CanTalonSRX(0);
-			backRight = new CanTalonSRX(1);
-			frontRight = new CanTalonSRX(2);
-			backLeft = new CanTalonSRX(3);
-
-			frontRight.Set(.5);
-			backRight.Set(.5);
-			backLeft.Set(.5);
-			frontLeft.Set(.5);
+			// CanTalonSRX frontRight, frontLeft, backRight, backLeft;
+			// frontLeft = new CanTalonSRX(0);
+			// backRight = new CanTalonSRX(1);
+			// frontRight = new CanTalonSRX(2);
+			// backLeft = new CanTalonSRX(3);
+			//
+			// frontRight.Set(.5);
+			// backRight.Set(.5);
+			// backLeft.Set(.5);
+			// frontLeft.Set(.5);
 			break;
 		}
 	}
@@ -83,11 +83,11 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
-		CanTalonSRX frontRight, frontLeft, backRight, backLeft;
-		frontLeft = new CanTalonSRX(0);
-		backRight = new CanTalonSRX(1);
-		frontRight = new CanTalonSRX(2);
-		backLeft = new CanTalonSRX(3);
+		// CanTalonSRX frontRight, frontLeft, backRight, backLeft;
+		// frontLeft = new CanTalonSRX(0);
+		// backRight = new CanTalonSRX(1);
+		// frontRight = new CanTalonSRX(2);
+		// backLeft = new CanTalonSRX(3);
 
 		XboxController xbox = new XboxController(0);
 
@@ -98,8 +98,8 @@ public class Robot extends IterativeRobot {
 		double deadZone = 0.2;
 		double innerTurnDampener = 0.25;
 
-		// System.out.println(forwardInput);
-		// System.out.println(turnInput + "turn");
+		 System.out.println(forwardInput);
+		 System.out.println(turnInput + "turn");
 
 		// OLD WAY
 
@@ -154,18 +154,40 @@ public class Robot extends IterativeRobot {
 		// System.out.println(rightMotorInput + "right");
 
 		// NEW WAY - Let's implement this once we have
+		// RobotDrive drive = new RobotDrive(deadZone, innerTurnDampener);
+		//
+		// List<CanTalonSRX> leftMotorGroup=new ArrayList<>();
+		// List<CanTalonSRX> rightMotorGroup=new ArrayList<>();
+		//
+		// leftMotorGroup.add(frontLeft);
+		// leftMotorGroup.add(backLeft);
+		//
+		// rightMotorGroup.add(frontRight);
+		// rightMotorGroup.add(backRight);
+		//
+		// drive.Drive(forwardInput, turnInput, leftMotorGroup, rightMotorGroup,
+		// MotorMounting.LeftMotorsReversed);
+
 		RobotDrive drive = new RobotDrive(deadZone, innerTurnDampener);
-		
-		List<CanTalonSRX> leftMotorGroup=new ArrayList<>();
-		List<CanTalonSRX> rightMotorGroup=new ArrayList<>();
-		
-		leftMotorGroup.add(frontLeft);
-		leftMotorGroup.add(backLeft);
-		
-		rightMotorGroup.add(frontRight);
-		rightMotorGroup.add(backRight);
-		
-		drive.Drive(forwardInput, turnInput, leftMotorGroup, rightMotorGroup, MotorMounting.LeftMotorsReversed);
+
+		// List<Talon> leftMotorGroup = new ArrayList<>();
+		// List<Talon> rightMotorGroup = new ArrayList<>();
+
+		// leftMotorGroup.add(new Talon(2));
+		// rightMotorGroup.add(new Talon(1));
+
+		// drive.DriveOldTalons(forwardInput, turnInput, leftMotorGroup,
+		// rightMotorGroup,
+		// MotorMounting.LeftMotorsReversed);
+
+		List<CanTalonSRX> leftMotorGroup = new ArrayList<>();
+		List<CanTalonSRX> rightMotorGroup = new ArrayList<>();
+
+		leftMotorGroup.add(new CanTalonSRX(1));
+		rightMotorGroup.add(new CanTalonSRX(2));
+
+		drive.Drive(forwardInput, turnInput, leftMotorGroup, rightMotorGroup, MotorMounting.NoMotorsReversed);
+
 	}
 
 	/**
