@@ -7,7 +7,7 @@ public class XboxController extends Joystick{
 		super(port);}
 	
 public double GetForwardInput(){
-	return super.getRawAxis(1);}
+	return -super.getRawAxis(1);}
 	
 public double GetTurnInput(){
 	return super.getRawAxis(4);} 

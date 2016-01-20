@@ -96,34 +96,42 @@ public class Robot extends IterativeRobot {
 		if (forwardInput > deadZone && turnInput > deadZone) {
 			leftMotorInput = forwardInput;
 			rightMotorInput = turnInput * .25;
+			System.out.println("turn forward right");
 			// Turn Forward Right
 		} else if (forwardInput <= deadZone && forwardInput >= -deadZone && turnInput > deadZone) {
 			leftMotorInput = -turnInput;
 			rightMotorInput = turnInput;
+			System.out.println("spin right");
 			// Spin Right
 		} else if (forwardInput > deadZone && turnInput <= deadZone && turnInput >= -deadZone) {
 			leftMotorInput = forwardInput;
 			rightMotorInput = forwardInput;
+			System.out.println("Forward");
 			// Move Forward
 		} else if (forwardInput > deadZone && turnInput < deadZone) {
 			rightMotorInput = forwardInput;
 			leftMotorInput = -turnInput * .25;
+			System.out.println("turn forward left");
 			// Turn Forwards Left
 		} else if (forwardInput <= deadZone && forwardInput >= -deadZone && turnInput < -deadZone) {
 			rightMotorInput = turnInput;
 			leftMotorInput = -turnInput;
+			System.out.println("spin left");
 			// Spin Left
-		} else if (forwardInput < -deadZone && turnInput < deadZone) {
+		} else if (forwardInput < -deadZone && turnInput < -deadZone) {
 			rightMotorInput = forwardInput;
 			leftMotorInput = turnInput * .25;
+			System.out.println("turn backwards left");
 			// Turn Backwards Left
-		} else if (forwardInput < -deadZone && turnInput > -deadZone) {
+		} else if (forwardInput < -deadZone && turnInput > deadZone) {
 			leftMotorInput = forwardInput;
 			rightMotorInput = -turnInput * .25;
-			// Turn Backwards Left
-		} else {
+			System.out.println("turn backwards right");
+			// Turn Backwards Right
+		} else if(forwardInput < -deadZone){
 			rightMotorInput = forwardInput;
 			leftMotorInput = forwardInput;
+			System.out.println("move backwards");
 			// Move Backwards
 		}
 		RightMotor.set(-rightMotorInput);
