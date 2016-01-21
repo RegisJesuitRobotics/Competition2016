@@ -3,10 +3,6 @@ package org.usfirst.frc.team3729.robot;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.TalonSRX;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.hal.CanTalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -27,6 +23,7 @@ public class Robot extends IterativeRobot {
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
+	@Override
 	public void robotInit() {
 		chooser = new SendableChooser();
 		chooser.addDefault("Default Auto", defaultAuto);
@@ -45,6 +42,7 @@ public class Robot extends IterativeRobot {
 	 * switch structure below with additional strings. If using the
 	 * SendableChooser make sure to add them to the chooser code above as well.
 	 */
+	@Override
 	public void autonomousInit() {
 		autoSelected = (String) chooser.getSelected();
 		// autoSelected = SmartDashboard.getString("Auto Selector",
@@ -55,6 +53,7 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during autonomous
 	 */
+	@Override
 	public void autonomousPeriodic() {
 		switch (autoSelected) {
 		case customAuto:
@@ -62,16 +61,13 @@ public class Robot extends IterativeRobot {
 			break;
 		case defaultAuto:
 		default:
-			CanTalonSRX frontRight, frontLeft, backRight, backLeft;
-			frontRight = new CanTalonSRX(0);
-			backRight = new CanTalonSRX(1);
-			backLeft = new CanTalonSRX(2);
-			frontLeft = new CanTalonSRX(3);
+			CANTalon RightMotor,LeftMotor;
 
-			frontRight.Set(.5);
-			backRight.Set(.5);
-			backLeft.Set(.5);
-			frontLeft.Set(.5);
+			RightMotor = new CANTalon(1);
+			LeftMotor = new CANTalon(2);
+
+			RightMotor.set(.5);
+			LeftMotor.set(.5);
 			break;
 		}
 	}
@@ -79,12 +75,12 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during operator control
 	 */
+	@Override
 	public void teleopPeriodic() {
-		CanTalonSRX frontRight, frontLeft, backRight, backLeft;
-		frontLeft = new CanTalonSRX(0);
-		backRight = new CanTalonSRX(1);
-		frontRight = new CanTalonSRX(2);
-		backLeft = new CanTalonSRX(3);
+		CANTalon RightMotor,LeftMotor;
+
+		RightMotor = new CANTalon(1);
+		LeftMotor = new CANTalon(2);
 
 		XboxController xbox = new XboxController(0);
 
@@ -130,10 +126,8 @@ public class Robot extends IterativeRobot {
 			leftMotorInput = forwardInput;
 			// Move Backwards
 		}
-		frontRight.Set(rightMotorInput);
-		backRight.Set(rightMotorInput);
-		backLeft.Set(-leftMotorInput);
-		frontLeft.Set(-leftMotorInput);
+		RightMotor.set(-rightMotorInput);
+		LeftMotor.set(leftMotorInput);
 		// System.out.println(leftMotorInput + "left");
 		// System.out.println(rightMotorInput + "right");
 	}
@@ -141,6 +135,7 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during test mode
 	 */
+	@Override
 	public void testPeriodic() {
 
 	}
