@@ -77,10 +77,12 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		CANTalon RightMotor, LeftMotor;
+		CANTalon RightMotor1, LeftMotor1, RightMotor2, LeftMotor2;
 
-		RightMotor = new CANTalon(1);
-		LeftMotor = new CANTalon(2);
+		RightMotor1 = new CANTalon(1);
+		RightMotor2 = new CANTalon(3);
+		LeftMotor1 = new CANTalon(2);
+		LeftMotor2 = new CANTalon(4);
 
 		XboxController xbox = new XboxController(0);
 
@@ -139,8 +141,10 @@ public class Robot extends IterativeRobot {
 			// Move Backwards
 		}
 
-		RightMotor.set(-rightMotorInput);
-		LeftMotor.set(leftMotorInput);
+		RightMotor1.set(-rightMotorInput);
+		LeftMotor1.set(leftMotorInput);
+		RightMotor2.set(-rightMotorInput);
+		LeftMotor2.set(leftMotorInput);
 		// System.out.println(leftMotorInput + "left");
 		// System.out.println(rightMotorInput + "right");
 	}
