@@ -61,7 +61,7 @@ public class Robot extends IterativeRobot {
 			break;
 		case defaultAuto:
 		default:
-			CANTalon RightMotor,LeftMotor;
+			CANTalon RightMotor, LeftMotor;
 
 			RightMotor = new CANTalon(1);
 			LeftMotor = new CANTalon(2);
@@ -77,7 +77,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		CANTalon RightMotor,LeftMotor;
+		CANTalon RightMotor, LeftMotor;
 
 		RightMotor = new CANTalon(1);
 		LeftMotor = new CANTalon(2);
@@ -128,7 +128,7 @@ public class Robot extends IterativeRobot {
 			rightMotorInput = -turnInput * .25;
 			System.out.println("turn backwards right");
 			// Turn Backwards Right
-		} else if(forwardInput < -deadZone){
+		} else if (forwardInput < -deadZone) {
 			rightMotorInput = forwardInput;
 			leftMotorInput = forwardInput;
 			System.out.println("move backwards");
