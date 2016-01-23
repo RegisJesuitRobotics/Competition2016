@@ -99,8 +99,8 @@ public class Robot extends IterativeRobot {
 			System.out.println("turn forward right");
 			// Turn Forward Right
 		} else if (forwardInput <= deadZone && forwardInput >= -deadZone && turnInput > deadZone) {
-			leftMotorInput = -turnInput;
-			rightMotorInput = turnInput;
+			leftMotorInput = turnInput;
+			rightMotorInput = -turnInput;
 			System.out.println("spin right");
 			// Spin Right
 		} else if (forwardInput > deadZone && turnInput <= deadZone && turnInput >= -deadZone) {
@@ -109,18 +109,22 @@ public class Robot extends IterativeRobot {
 			System.out.println("Forward");
 			// Move Forward
 		} else if (forwardInput > deadZone && turnInput < deadZone) {
-			rightMotorInput = forwardInput;
+			// Left input is negative, so it must be negated to move forward.
 			leftMotorInput = -turnInput * .25;
+			rightMotorInput = forwardInput;
 			System.out.println("turn forward left");
 			// Turn Forwards Left
 		} else if (forwardInput <= deadZone && forwardInput >= -deadZone && turnInput < -deadZone) {
-			rightMotorInput = turnInput;
-			leftMotorInput = -turnInput;
+			// Left motor should move in reverse, right should move forward.
+			// Left turn is a negative input already, so we don't need to negate
+			// it again.
+			leftMotorInput = turnInput;
+			rightMotorInput = -turnInput;
 			System.out.println("spin left");
 			// Spin Left
 		} else if (forwardInput < -deadZone && turnInput < -deadZone) {
-			rightMotorInput = forwardInput;
 			leftMotorInput = turnInput * .25;
+			rightMotorInput = forwardInput;
 			System.out.println("turn backwards left");
 			// Turn Backwards Left
 		} else if (forwardInput < -deadZone && turnInput > deadZone) {
@@ -129,11 +133,12 @@ public class Robot extends IterativeRobot {
 			System.out.println("turn backwards right");
 			// Turn Backwards Right
 		} else if (forwardInput < -deadZone) {
-			rightMotorInput = forwardInput;
 			leftMotorInput = forwardInput;
+			rightMotorInput = forwardInput;
 			System.out.println("move backwards");
 			// Move Backwards
 		}
+
 		RightMotor.set(-rightMotorInput);
 		LeftMotor.set(leftMotorInput);
 		// System.out.println(leftMotorInput + "left");
