@@ -20,14 +20,9 @@ public class XboxController extends Joystick {
 		return super.getRawAxis(4);
 	}
 
-	public boolean GetRightTrigger() {
+	public double GetRightTrigger() {
 
-		double TriggerInput = super.getRawAxis(3);
-		if (TriggerInput <= 0.0) {
-			return false;
-		} else {
-			return true;
-		}
+		return super.getRawAxis(3);
 	}
 
 	public boolean GetA() {
@@ -62,12 +57,7 @@ public class XboxController extends Joystick {
 		return super.getRawButton(8);
 	}
 
-	public boolean GetLeftTrigger() {
-		double TriggerInput = super.getRawAxis(2);
-		if (TriggerInput <= 0.0) {
-			return false;
-		} else {
-			return true;
-		}
+	public double GetLeftTrigger() {
+		return super.getRawAxis(2);
 	}
 }
