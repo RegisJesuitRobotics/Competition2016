@@ -79,13 +79,18 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		CANTalon RightMotor, LeftMotor;
+		CANTalon RightMotor1, LeftMotor1, RightMotor2, LeftMotor2;
 
-		RightMotor = new CANTalon(1);
-		LeftMotor = new CANTalon(2);
+		RightMotor1 = new CANTalon(2);
+		RightMotor2 = new CANTalon(3);
+		LeftMotor1 = new CANTalon(1);
+		LeftMotor2 = new CANTalon(4);
 
 		XboxController xbox = new XboxController(0);
 
+		// This limits the power of the motor, it is a percentage
+		// This SHOULD NOT go above 1.0, not should it be negative
+		double motorLimiterRatio = .5;
 		double forwardInput = xbox.GetForwardInput();
 		double turnInput = xbox.GetTurnInput();
 		double leftMotorInput = 0;
@@ -141,8 +146,10 @@ public class Robot extends IterativeRobot {
 			// Move Backwards
 		}
 
-		RightMotor.set(-rightMotorInput);
-		LeftMotor.set(leftMotorInput);
+		RightMotor1.set(-rightMotorInput * motorLimiterRatio);
+		LeftMotor1.set(leftMotorInput * motorLimiterRatio);
+		RightMotor2.set(-rightMotorInput * motorLimiterRatio);
+		LeftMotor2.set(leftMotorInput * motorLimiterRatio);
 		// System.out.println(leftMotorInput + "left");
 		// System.out.println(rightMotorInput + "right");
 	}
