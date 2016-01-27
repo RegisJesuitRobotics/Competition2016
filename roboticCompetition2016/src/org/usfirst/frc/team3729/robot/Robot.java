@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.vision.USBCamera;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -19,6 +20,9 @@ public class Robot extends IterativeRobot {
 	String autoSelected;
 	SendableChooser chooser;
 	robotDrive drive;
+	XboxController xbox;
+	Shooter shoot;
+	USBCamera cam;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -30,7 +34,12 @@ public class Robot extends IterativeRobot {
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
-		drive= new robotDrive();
+		xbox = new XboxController(0);
+		drive= new robotDrive(xbox);
+		shoot = new Shooter(xbox);
+		cam = new USBCamera();
+		
+	
 	}
 
 	/**

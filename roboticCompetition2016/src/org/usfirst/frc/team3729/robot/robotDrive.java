@@ -4,25 +4,25 @@ import edu.wpi.first.wpilibj.CANTalon;
 
 public class robotDrive {
 	CANTalon RightMotor1, LeftMotor1, RightMotor2, LeftMotor2;
-	XboxController xbox;
-	public robotDrive()
-	{
+	XboxController _xbox;
+
+	public robotDrive(XboxController xbox) {
 		RightMotor1 = new CANTalon(2);
 		RightMotor2 = new CANTalon(3);
 		LeftMotor1 = new CANTalon(1);
 		LeftMotor2 = new CANTalon(4);
-		xbox = new XboxController(0);
+		this._xbox=xbox;
+		
 	}
 
 	public void arcadeDrive() {
 		
-
 		// This limits the power of the motor, it is a percentage
 		// This SHOULD NOT go above 1.0, not should it be negative
 		double motorLimiterRatioinital = .5;
 		double motorLimiterRatio = motorLimiterRatioinital;
-		double forwardInput = xbox.GetForwardInput();
-		double turnInput = xbox.GetTurnInput();
+		double forwardInput = _xbox.GetForwardInput();
+		double turnInput = _xbox.GetTurnInput();
 		double leftMotorInput = 0;
 		double rightMotorInput = 0;
 		double deadZone = 0.2;
@@ -78,8 +78,8 @@ public class robotDrive {
 			System.out.println("move backwards");
 			// Move Backwards
 		}
-		if (xbox.GetRightTrigger() > deadZone) {
-			motorLimiterRatio += (xbox.GetRightTrigger() * .5);
+		if (_xbox.GetRightTrigger() > deadZone) {
+			motorLimiterRatio += (_xbox.GetRightTrigger() * .5);
 		} else {
 			motorLimiterRatio = motorLimiterRatioinital;
 		}
