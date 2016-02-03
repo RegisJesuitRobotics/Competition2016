@@ -35,11 +35,10 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
 		xbox = new XboxController(0);
-		drive= new robotDrive(xbox);
+		drive = new robotDrive(xbox);
 		shoot = new Shooter(xbox);
 		cam = new USBCamera();
-		
-	
+
 	}
 
 	/**

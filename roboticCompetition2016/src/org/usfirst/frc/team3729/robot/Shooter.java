@@ -19,7 +19,7 @@ public class Shooter {
 		} else if (_xbox.GetPOV() == 0) {
 			// set motors to output
 		} else {
-			// set motors to 0
+			// set motors to 0 
 		}
 	}
 
