@@ -21,7 +21,7 @@ public class Robot extends IterativeRobot {
 	SendableChooser chooser;
 	robotDrive drive;
 	XboxController xbox;
-	Shooter shoot;
+	Shooter shooter;
 	USBCamera cam;
 
 	/**
@@ -36,7 +36,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto choices", chooser);
 		xbox = new XboxController(0);
 		drive = new robotDrive(xbox);
-		shoot = new Shooter(xbox);
+		shooter = new Shooter();
 		cam = new USBCamera();
 
 	}
@@ -88,6 +88,22 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		drive.arcadeDrive();
+		// Listen for shoot
+		if (xbox.GetLeftBumper() == true) {
+			this.shooter.Shoot(true);
+		} else {
+			this.shooter.Shoot(false);
+		}
+		// Listen for feed
+		if (xbox.getPOV() == 1) {
+			this.shooter.Feed(1);
+		} else if (xbox.getPOV() == 0) {
+			this.shooter.Feed(0);
+		} else {
+			this.shooter.Feed(42069);
+			// non 1 non 0 number stops feeder
+		}
+
 	}
 
 	/**
