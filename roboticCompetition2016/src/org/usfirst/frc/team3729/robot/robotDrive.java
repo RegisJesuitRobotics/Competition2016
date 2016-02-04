@@ -11,12 +11,11 @@ public class robotDrive {
 		RightMotor2 = new CANTalon(3);
 		LeftMotor1 = new CANTalon(1);
 		LeftMotor2 = new CANTalon(4);
-		this._xbox=xbox;
-		
+		this._xbox = xbox;
 	}
 
 	public void arcadeDrive() {
-		
+
 		// This limits the power of the motor, it is a percentage
 		// This SHOULD NOT go above 1.0, not should it be negative
 		double motorLimiterRatioinital = .5;
@@ -35,14 +34,12 @@ public class robotDrive {
 			rightMotorInput = turnInput * .25;
 			System.out.println("turn forward right");
 			// Turn Forward Right
-		} else if (forwardInput <= deadZone && forwardInput >= -deadZone
-				&& turnInput > deadZone) {
+		} else if (forwardInput <= deadZone && forwardInput >= -deadZone && turnInput > deadZone) {
 			leftMotorInput = turnInput;
 			rightMotorInput = -turnInput;
 			System.out.println("spin right");
 			// Spin Right
-		} else if (forwardInput > deadZone && turnInput <= deadZone
-				&& turnInput >= -deadZone) {
+		} else if (forwardInput > deadZone && turnInput <= deadZone && turnInput >= -deadZone) {
 			leftMotorInput = forwardInput;
 			rightMotorInput = forwardInput;
 			System.out.println("Forward");
@@ -53,8 +50,7 @@ public class robotDrive {
 			rightMotorInput = forwardInput;
 			System.out.println("turn forward left");
 			// Turn Forwards Left
-		} else if (forwardInput <= deadZone && forwardInput >= -deadZone
-				&& turnInput < -deadZone) {
+		} else if (forwardInput <= deadZone && forwardInput >= -deadZone && turnInput < -deadZone) {
 			// Left motor should move in reverse, right should move forward.
 			// Left turn is a negative input already, so we don't need to negate
 			// it again.
