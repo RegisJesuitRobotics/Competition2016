@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3729.robot;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Timer;
 
 public class robotDrive {
 	CANTalon RightMotor1, LeftMotor1, RightMotor2, LeftMotor2;
@@ -85,5 +86,18 @@ public class robotDrive {
 		LeftMotor2.set(leftMotorInput * motorLimiterRatio);
 		// System.out.println(leftMotorInput + "left");
 		// System.out.println(rightMotorInput + "right");
+	}
+
+	public void autonomous() {
+		RightMotor1.set(-.5);
+		LeftMotor1.set(.5);
+		RightMotor2.set(-.5);
+		LeftMotor2.set(.5);
+		Timer.delay(.25);
+
+		RightMotor1.set(0);
+		LeftMotor1.set(0);
+		RightMotor2.set(0);
+		LeftMotor2.set(0);
 	}
 }

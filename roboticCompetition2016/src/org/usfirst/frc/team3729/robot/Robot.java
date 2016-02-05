@@ -3,6 +3,7 @@ package org.usfirst.frc.team3729.robot;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.USBCamera;
@@ -22,7 +23,9 @@ public class Robot extends IterativeRobot {
 	robotDrive drive;
 	XboxController xbox;
 	Shooter shooter;
-	USBCamera cam;
+	// USBCamera cam;
+	CANTalon RightMotor1, LeftMotor1, RightMotor2, LeftMotor2;
+	boolean automove;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -37,7 +40,7 @@ public class Robot extends IterativeRobot {
 		xbox = new XboxController(0);
 		drive = new robotDrive(xbox);
 		shooter = new Shooter();
-		cam = new USBCamera();
+		// cam = new USBCamera();
 
 	}
 
@@ -58,6 +61,11 @@ public class Robot extends IterativeRobot {
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
 		System.out.println("Auto selected: " + autoSelected);
+		RightMotor1 = new CANTalon(2);
+		RightMotor2 = new CANTalon(3);
+		LeftMotor1 = new CANTalon(1);
+		LeftMotor2 = new CANTalon(4);
+		automove = true;
 	}
 
 	/**
@@ -67,17 +75,64 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		switch (autoSelected) {
 		case customAuto:
-			// Put custom auto code here
+
 			break;
 		case defaultAuto:
 		default:
-			CANTalon RightMotor, LeftMotor;
-
-			RightMotor = new CANTalon(1);
-			LeftMotor = new CANTalon(2);
-
-			RightMotor.set(.5);
-			LeftMotor.set(.5);
+			if (automove == true) {
+				RightMotor1.set(-.5);
+				LeftMotor1.set(.5);
+				RightMotor2.set(-.5);
+				LeftMotor2.set(.5);
+				Timer.delay(1.48);
+				RightMotor1.set(.5);
+				LeftMotor1.set(-.5);
+				RightMotor2.set(.5);
+				LeftMotor2.set(-.5);
+				Timer.delay(.2);
+				RightMotor1.set(0);
+				LeftMotor1.set(0);
+				RightMotor2.set(0);
+				LeftMotor2.set(0);
+				RightMotor1.set(.5);
+				LeftMotor1.set(.5);
+				RightMotor2.set(.5);
+				LeftMotor2.set(.5);
+				Timer.delay(.41);
+				RightMotor1.set(0);
+				LeftMotor1.set(0);
+				RightMotor2.set(0);
+				LeftMotor2.set(0);
+				Timer.delay(.3);
+				RightMotor1.set(-.5);
+				LeftMotor1.set(.5);
+				RightMotor2.set(-.5);
+				LeftMotor2.set(.5);
+				Timer.delay(1.8);
+				RightMotor1.set(.5);
+				LeftMotor1.set(-.5);
+				RightMotor2.set(.5);
+				LeftMotor2.set(-.5);
+				Timer.delay(.2);
+				RightMotor1.set(0);
+				LeftMotor1.set(0);
+				RightMotor2.set(0);
+				LeftMotor2.set(0);
+				Timer.delay(.31);
+				RightMotor1.set(-.25);
+				LeftMotor1.set(-.25);
+				RightMotor2.set(-.25);
+				LeftMotor2.set(-.25);
+				Timer.delay(1.05);
+				RightMotor1.set(0);
+				LeftMotor1.set(0);
+				RightMotor2.set(0);
+				LeftMotor2.set(0);
+				automove = false;
+				// 20 in. in front of low bar
+				// 2 seconds of spin = 180
+				//8 1/2 in. from inside corner of low bar
+			}
 			break;
 		}
 	}
