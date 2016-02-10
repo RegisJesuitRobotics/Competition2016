@@ -23,6 +23,7 @@ public class Robot extends IterativeRobot {
 	robotDrive drive;
 	XboxController xbox;
 	Shooter shooter;
+	Arm arm;
 	// USBCamera cam;
 	CANTalon RightMotor1, LeftMotor1, RightMotor2, LeftMotor2;
 	boolean automove;
@@ -40,6 +41,7 @@ public class Robot extends IterativeRobot {
 		xbox = new XboxController(0);
 		drive = new robotDrive(xbox);
 		shooter = new Shooter();
+		arm = new Arm();
 		// cam = new USBCamera();
 
 	}
@@ -131,7 +133,7 @@ public class Robot extends IterativeRobot {
 				automove = false;
 				// 20 in. in front of low bar
 				// 2 seconds of spin = 180
-				//8 1/2 in. from inside corner of low bar
+				// 8 1/2 in. from inside corner of low bar
 			}
 			break;
 		}
@@ -158,7 +160,13 @@ public class Robot extends IterativeRobot {
 			this.shooter.Feed(42069);
 			// non 1 non 0 number stops feeder
 		}
+		if (xbox.GetA() == true) {
+			arm.RotateForward();
 
+		}
+		if (xbox.GetY() == true) {
+			arm.RotateBackward();
+		}
 	}
 
 	/**
