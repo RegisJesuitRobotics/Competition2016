@@ -132,4 +132,20 @@ public class robotDrive {
 		}
 
 	}
+	public void TurnAround()
+	{
+		gyro.reset();
+		do 
+		{
+			LeftMotor1.set(.5); 
+			LeftMotor2.set(.5);
+			RightMotor1.set(-.5);
+			RightMotor2.set(.5);
+		}while (gyro.getAngle() <= 180);
+		// leftMotorInput = turnInput;
+		// rightMotorInput = -turnInput;
+		// System.out.println("spin right");
+		
+	}
+	
 }
