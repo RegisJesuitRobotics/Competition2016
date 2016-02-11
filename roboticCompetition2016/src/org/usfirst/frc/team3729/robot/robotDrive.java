@@ -11,7 +11,7 @@ public class robotDrive {
 
 	public robotDrive(XboxController xbox) {
 		RightMotor1 = new CANTalon(2);
-		RightMotor2 = new CANTalon(3);
+		RightMotor2 = new CANTalon(3); 
 		LeftMotor1 = new CANTalon(1);
 		LeftMotor2 = new CANTalon(4);
 		this._xbox = xbox;
