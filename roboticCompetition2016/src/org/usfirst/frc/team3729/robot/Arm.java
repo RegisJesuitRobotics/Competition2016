@@ -1,16 +1,17 @@
 package org.usfirst.frc.team3729.robot;
 
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Victor;
 
 public class Arm {
-	Talon LeftArmMotor,RightArmMotor;
+	Victor LeftArmMotor,RightArmMotor;
 	
 	
 	
 	public Arm ()
 	{ 
-		LeftArmMotor = new Talon(0);
-		RightArmMotor = new Talon(1);
+		LeftArmMotor = new Victor(0);
+		RightArmMotor = new Victor(1);
 		
 	}
 	
