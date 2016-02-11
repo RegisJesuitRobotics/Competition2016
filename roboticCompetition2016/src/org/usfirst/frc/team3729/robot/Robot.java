@@ -82,7 +82,7 @@ public class Robot extends IterativeRobot {
 		case defaultAuto:
 		default:
 			if (automove == true) {
-				drive.DriveStraight(.5);
+				drive.DriveStraight(.5, 10);
 
 				// RightMotor1.set(-.5);
 				// LeftMotor1.set(.5);

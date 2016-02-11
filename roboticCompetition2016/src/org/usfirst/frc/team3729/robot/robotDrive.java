@@ -93,11 +93,13 @@ public class robotDrive {
 		// System.out.println(rightMotorInput + "right");
 	}
 
-	public void DriveStraight(double speed) {
+	public void DriveStraight(double speed, double distanceinitial) {
 		gyro.reset();
 		double angle = gyro.getAngle();
-
-		if (angle > .05)
+		double distance = distanceinitial;
+		
+		
+		/*if (angle > .05)
 
 		{
 			RightMotor1.set(speed);
@@ -116,7 +118,7 @@ public class robotDrive {
 			LeftMotor2.set(speed);
 			RightMotor1.set(speed);
 			RightMotor2.set(speed);
-		}
+		}*/
 
 	}
 	public void TurnAround()
