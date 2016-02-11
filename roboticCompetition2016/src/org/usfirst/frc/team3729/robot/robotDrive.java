@@ -93,19 +93,6 @@ public class robotDrive {
 		// System.out.println(rightMotorInput + "right");
 	}
 
-	public void autonomous() {
-		RightMotor1.set(-.5);
-		LeftMotor1.set(.5);
-		RightMotor2.set(-.5);
-		LeftMotor2.set(.5);
-		Timer.delay(.25);
-
-		RightMotor1.set(0);
-		LeftMotor1.set(0);
-		RightMotor2.set(0);
-		LeftMotor2.set(0);
-	}
-
 	public void DriveStraight(double speed) {
 		gyro.reset();
 		double angle = gyro.getAngle();
