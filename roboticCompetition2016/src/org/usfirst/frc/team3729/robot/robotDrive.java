@@ -1,11 +1,13 @@
 package org.usfirst.frc.team3729.robot;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Timer;
 
 public class robotDrive {
 	CANTalon RightMotor1, LeftMotor1, RightMotor2, LeftMotor2;
 	XboxController _xbox;
+	AnalogGyro gyro;
 
 	public robotDrive(XboxController xbox) {
 		RightMotor1 = new CANTalon(2);
@@ -13,6 +15,9 @@ public class robotDrive {
 		LeftMotor1 = new CANTalon(1);
 		LeftMotor2 = new CANTalon(4);
 		this._xbox = xbox;
+		gyro = new AnalogGyro(0);
+		gyro.initGyro();
+		gyro.calibrate();
 	}
 
 	public void arcadeDrive() {
@@ -99,5 +104,32 @@ public class robotDrive {
 		LeftMotor1.set(0);
 		RightMotor2.set(0);
 		LeftMotor2.set(0);
+	}
+
+	public void DriveStraight(double speed) {
+		gyro.reset();
+		double angle = gyro.getAngle();
+
+		if (angle > .05)
+
+		{
+			RightMotor1.set(speed);
+			RightMotor2.set(speed);
+			LeftMotor1.set(speed * .75);
+			LeftMotor2.set(speed * .75);
+		}
+
+		else if (angle < -.05) {
+			LeftMotor1.set(speed);
+			LeftMotor2.set(speed);
+			RightMotor1.set(speed * .75);
+			RightMotor2.set(speed * .75);
+		} else {
+			LeftMotor1.set(speed);
+			LeftMotor2.set(speed);
+			RightMotor1.set(speed);
+			RightMotor2.set(speed);
+		}
+
 	}
 }
