@@ -1,6 +1,8 @@
 
 package org.usfirst.frc.team3729.robot;
 
+import javax.naming.AuthenticationNotSupportedException;
+
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -18,7 +20,9 @@ import edu.wpi.first.wpilibj.vision.USBCamera;
  */
 public class Robot extends IterativeRobot {
 	final String defaultAuto = "Default";
-	final String customAuto = "My Auto";
+	final String autonomousPath1 = "Autonomous Path High Center Goal";
+	final String autonomousPath2 = "Autonomous Path High Left Goal";
+	final String autonomousPath3 = "Autonomous Path Defense Driveover";
 	String autoSelected;
 	SendableChooser chooser;
 	robotDrive drive;
@@ -38,14 +42,16 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		chooser = new SendableChooser();
 		chooser.addDefault("Default Auto", defaultAuto);
-		chooser.addObject("My Auto", customAuto);
+		chooser.addObject("Autonomous Path High Center Goal", autonomousPath1);
+		chooser.addObject("Autonomous Path High Left Goal", autonomousPath2);
+		chooser.addObject("Autonomous Path Defense Driveover", autonomousPath3);
 		SmartDashboard.putData("Auto choices", chooser);
 		xbox = new XboxController(0);
 		gyro = new AnalogGyro(0);
 		drive = new robotDrive(xbox, gyro);
 		shooter = new Shooter();
 		arm = new Arm();
-		
+
 		// cam = new USBCamera();
 
 	}
@@ -83,13 +89,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		switch (autoSelected) {
-		case customAuto:
-
-			break;
-		case defaultAuto:
-		default:
+		case autonomousPath1:
 			if (automove == true) {
-				
 				drive.Drive(8, .5);
 				drive.Stop();
 				drive.Turn(90, true);
@@ -98,58 +99,38 @@ public class Robot extends IterativeRobot {
 				drive.Stop();
 				drive.Turn(90, false);
 				drive.Stop();
-				// RightMotor1.set(-.5);
-				// LeftMotor1.set(.5);
-				// RightMotor2.set(-.5);
-				// LeftMotor2.set(.5);
-				// Timer.delay(1.48);
-				// RightMotor1.set(.5);
-				// LeftMotor1.set(-.5);
-				// RightMotor2.set(.5);
-				// LeftMotor2.set(-.5);
-				// Timer.delay(.2);
-				// RightMotor1.set(0);
-				// LeftMotor1.set(0);
-				// RightMotor2.set(0);
-				// LeftMotor2.set(0);
-				// RightMotor1.set(.5);
-				// LeftMotor1.set(.5);
-				// RightMotor2.set(.5);
-				// LeftMotor2.set(.5);
-				// Timer.delay(.41);
-				// RightMotor1.set(0);
-				// LeftMotor1.set(0);
-				// RightMotor2.set(0);
-				// LeftMotor2.set(0);
-				// Timer.delay(.3);
-				// RightMotor1.set(-.5);
-				// LeftMotor1.set(.5);
-				// RightMotor2.set(-.5);
-				// LeftMotor2.set(.5);
-				// Timer.delay(1.8);
-				// RightMotor1.set(.5);
-				// LeftMotor1.set(-.5);
-				// RightMotor2.set(.5);
-				// LeftMotor2.set(-.5);
-				// Timer.delay(.2);
-				// RightMotor1.set(0);
-				// LeftMotor1.set(0);
-				// RightMotor2.set(0);
-				// LeftMotor2.set(0);
-				// Timer.delay(.31);
-				// RightMotor1.set(-.25);
-				// LeftMotor1.set(-.25);
-				// RightMotor2.set(-.25);
-				// LeftMotor2.set(-.25);
-				// Timer.delay(1.05);
-				// RightMotor1.set(0);
-				// LeftMotor1.set(0);
-				// RightMotor2.set(0);
-				// LeftMotor2.set(0);
+
 				automove = false;
-				// 20 in. in front of low bar
-				// 2 seconds of spin = 180
-				// 8 1/2 in. from inside corner of low bar
+			}
+			break;
+
+		case autonomousPath2:
+			if (automove == true) {
+				drive.Drive(13.5, .5);
+				drive.Stop();
+				drive.Turn(45, true);
+				drive.Stop();
+
+				automove = false;
+			}
+			break;
+
+		case autonomousPath3:
+			if (automove == true) {
+				// TODO
+			}
+			break;
+
+		case defaultAuto:
+		default:
+			if (automove == true) {
+
+				drive.Drive(13.5, .5);
+				drive.Stop();
+				drive.Turn(45, true);
+				drive.Stop();
+
+				automove = false;
 			}
 			break;
 		}
