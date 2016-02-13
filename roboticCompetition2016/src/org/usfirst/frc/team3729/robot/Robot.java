@@ -94,9 +94,10 @@ public class Robot extends IterativeRobot {
 				drive.Stop();
 				drive.Turn(90, true);
 				drive.Stop();
-				drive.Drive(10, .5);
+				drive.Drive(8.5, .5);
 				drive.Stop();
 				drive.Turn(90, false);
+				drive.Stop();
 				// RightMotor1.set(-.5);
 				// LeftMotor1.set(.5);
 				// RightMotor2.set(-.5);
