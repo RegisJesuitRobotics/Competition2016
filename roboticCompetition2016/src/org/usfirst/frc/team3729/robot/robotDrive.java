@@ -1,5 +1,12 @@
 package org.usfirst.frc.team3729.robot;
 
+import java.lang.*;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.*;
+
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Timer;
@@ -8,16 +15,19 @@ public class robotDrive {
 	CANTalon RightMotor1, LeftMotor1, RightMotor2, LeftMotor2;
 	XboxController _xbox;
 	AnalogGyro gyro;
+	double circumference = 7.5 * 3.14159 / 12;
+	double motorspeed = 18.52;
+	double acceleration;
+	Calendar cal;
 
-	public robotDrive(XboxController xbox) {
+	public robotDrive(XboxController xbox, AnalogGyro gyro_) {
 		RightMotor1 = new CANTalon(2);
-		RightMotor2 = new CANTalon(3); 
+		RightMotor2 = new CANTalon(3);
 		LeftMotor1 = new CANTalon(1);
 		LeftMotor2 = new CANTalon(4);
 		this._xbox = xbox;
-		gyro = new AnalogGyro(0);
-		gyro.initGyro();
-		gyro.calibrate();
+		this.gyro = gyro_;
+
 	}
 
 	public void arcadeDrive() {
@@ -93,48 +103,113 @@ public class robotDrive {
 		// System.out.println(rightMotorInput + "right");
 	}
 
-	public void DriveStraight(double speed, double distanceinitial) {
-		gyro.reset();
-		double angle = gyro.getAngle();
-		double distance = distanceinitial;
-		
-		
-		/*if (angle > .05)
+	private void DriveStraight(double speed, double currentheading) {
 
-		{
-			RightMotor1.set(speed);
-			RightMotor2.set(speed);
+		double angle = gyro.getAngle();
+
+		if (angle >= currentheading + .05) {
 			LeftMotor1.set(speed * .75);
 			LeftMotor2.set(speed * .75);
+			RightMotor1.set(-speed);
+			RightMotor2.set(-speed);
+			System.out.println("right");
+		} else if (angle <= currentheading - .05) {
+			System.out.println("left");
+			LeftMotor1.set(speed);
+			LeftMotor2.set(speed);
+			RightMotor1.set(-speed * .75);
+			RightMotor2.set(-speed * .75);
+		} else {
+			System.out.println("straight");
+			LeftMotor1.set(speed);
+			LeftMotor2.set(speed);
+			RightMotor1.set(-speed);
+			RightMotor2.set(-speed);
 		}
 
-		else if (angle < -.05) {
-			LeftMotor1.set(speed);
-			LeftMotor2.set(speed);
-			RightMotor1.set(speed * .75);
-			RightMotor2.set(speed * .75);
-		} else {
-			LeftMotor1.set(speed);
-			LeftMotor2.set(speed);
-			RightMotor1.set(speed);
-			RightMotor2.set(speed);
-		}*/
+		// Timer.delay(circumference * (distance - .25) / motorspeed);
+		/*
+		 * double time = 0; double speedf = speed; acceleration = 2 * speed;
+		 * while ((speedf > 0)) { speedf = speed - (acceleration * time);
+		 * LeftMotor1.set(speedf); RightMotor1.set(speedf);
+		 * LeftMotor2.set(speedf); RightMotor2.set(speedf); Timer.delay(0.005);
+		 * time = time + .005; if (speedf < 0.05 || speedf > -0.05) {
+		 * LeftMotor1.set(0); RightMotor1.set(0); LeftMotor2.set(0);
+		 * RightMotor2.set(0); } } while ((speedf < 0)) { speedf = speed +
+		 * (acceleration * time); LeftMotor1.set(speedf);
+		 * RightMotor1.set(speedf); LeftMotor2.set(speedf);
+		 * RightMotor2.set(speedf); Timer.delay(0.005); time = time + .005; if
+		 * (speedf < 0.05 || speedf > -0.05) { LeftMotor1.set(0);
+		 * RightMotor1.set(0); LeftMotor2.set(0); RightMotor2.set(0); } }
+		 */
 
 	}
-	public void TurnAround()
-	{
-		gyro.reset();
-		do 
-		{
-			LeftMotor1.set(.5); 
-			LeftMotor2.set(.5);
-			RightMotor1.set(-.5);
-			RightMotor2.set(.5);
-		}while (gyro.getAngle() <= 180);
-		// leftMotorInput = turnInput;
-		// rightMotorInput = -turnInput;
-		// System.out.println("spin right");
-		
+
+	public void Drive(double distanceinitial, double speed) {
+		DecimalFormat df = new DecimalFormat("#.###");
+		df.setRoundingMode(RoundingMode.CEILING);
+		double time = Math.round(circumference * 1000 * distanceinitial / (motorspeed * speed));
+		cal = Calendar.getInstance();
+		cal.add(Calendar.MILLISECOND, Integer.parseInt(df.format(time)));
+		Date future = cal.getTime();
+		Date dat = new Date();
+		double currentheading = gyro.getAngle();
+		while (dat.compareTo(future) != 1) {
+			DriveStraight(speed, currentheading);
+			dat = new Date();
+			System.out.println(dat.compareTo(future));
+		}
+		DriveStraight(0,currentheading);
+
 	}
-	
+
+	public void TurnAround() {
+		Turn(180, true);
+	}
+
+	public void Turn(double angle, boolean isClockwise) {
+		double currentheading = gyro.getAngle();
+		if (isClockwise == true) {
+			do {
+				LeftMotor1.set(.5);
+				LeftMotor2.set(.5);
+				RightMotor1.set(.5);
+				RightMotor2.set(.5);
+				System.out.println(gyro.getAngle());
+			} while (gyro.getAngle() <= currentheading + angle - 21);
+			LeftMotor1.set(0);
+			LeftMotor2.set(0);
+			RightMotor1.set(0);
+			RightMotor2.set(0);
+		}
+		if (isClockwise == false) {
+			do {
+				LeftMotor1.set(-.5);
+				LeftMotor2.set(-.5);
+				RightMotor1.set(-.5);
+				RightMotor2.set(-.5);
+				System.out.println(gyro.getAngle());
+			} while (gyro.getAngle() >= -angle - currentheading + 21);
+			LeftMotor1.set(0);
+			LeftMotor2.set(0);
+			RightMotor1.set(0);
+			RightMotor2.set(0);
+		}
+	}
+
+	public void Stop() {
+		LeftMotor1.set(-.2);
+		LeftMotor2.set(-.2);
+		RightMotor1.set(-.2);
+		RightMotor2.set(-.2);
+		Timer.delay(.1);
+		LeftMotor1.set(0);
+		LeftMotor2.set(0);
+		RightMotor1.set(0);
+		RightMotor2.set(0);
+	}
+
+	public void turnToHeading(double heading) {
+
+	}
 }

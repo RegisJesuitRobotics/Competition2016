@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team3729.robot;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -24,6 +25,7 @@ public class Robot extends IterativeRobot {
 	XboxController xbox;
 	Shooter shooter;
 	Arm arm;
+	AnalogGyro gyro;
 	// USBCamera cam;
 	CANTalon RightMotor1, LeftMotor1, RightMotor2, LeftMotor2;
 	boolean automove;
@@ -39,9 +41,11 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
 		xbox = new XboxController(0);
-		drive = new robotDrive(xbox);
+		gyro = new AnalogGyro(0);
+		drive = new robotDrive(xbox, gyro);
 		shooter = new Shooter();
 		arm = new Arm();
+		
 		// cam = new USBCamera();
 
 	}
@@ -68,6 +72,9 @@ public class Robot extends IterativeRobot {
 		LeftMotor1 = new CANTalon(1);
 		LeftMotor2 = new CANTalon(4);
 		automove = true;
+		gyro.initGyro();
+		gyro.calibrate();
+		gyro.reset();
 	}
 
 	/**
@@ -82,8 +89,14 @@ public class Robot extends IterativeRobot {
 		case defaultAuto:
 		default:
 			if (automove == true) {
-				drive.DriveStraight(.5, 10);
-
+				
+				drive.Drive(8, .5);
+				drive.Stop();
+				drive.Turn(90, true);
+				drive.Stop();
+				drive.Drive(10, .5);
+				drive.Stop();
+				drive.Turn(90, false);
 				// RightMotor1.set(-.5);
 				// LeftMotor1.set(.5);
 				// RightMotor2.set(-.5);
