@@ -117,7 +117,13 @@ public class Robot extends IterativeRobot {
 
 		case autonomousPath3:
 			if (automove == true) {
-				// TODO
+				
+				drive.Drive(10, .7);
+				drive.Stop();
+				drive.TurnAround(); 
+				drive.Drive(2, .7);
+				drive.Stop();
+				automove= false;
 			}
 			break;
 
