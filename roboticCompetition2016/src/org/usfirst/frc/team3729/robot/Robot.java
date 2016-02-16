@@ -164,10 +164,12 @@ public class Robot extends IterativeRobot {
 		}
 		if (xbox.GetA() == true) {
 			arm.RotateForward();
+			System.out.println("A");
 
 		}
 		if (xbox.GetY() == true) {
 			arm.RotateBackward();
+			System.out.println("Y");
 		}
 		if (xbox.GetStart() == true) {
 			drive.TurnAround();
