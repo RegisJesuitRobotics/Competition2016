@@ -22,9 +22,9 @@ public class robotDrive {
 
 	public robotDrive(XboxController xbox, AnalogGyro gyro_) {
 		RightMotor1 = new CANTalon(2);
-		RightMotor2 = new CANTalon(3);
+		RightMotor2 = new CANTalon(4);
 		LeftMotor1 = new CANTalon(1);
-		LeftMotor2 = new CANTalon(4);
+		LeftMotor2 = new CANTalon(3);
 		this._xbox = xbox;
 		this.gyro = gyro_;
 
@@ -145,7 +145,7 @@ public class robotDrive {
 
 	}
 
-<<<<<<< HEAD
+//<<<<<HEAD (whateve that means)
 	public void TurnAround() {
 		gyro.reset();
 		do {
@@ -160,7 +160,6 @@ public class robotDrive {
 
 	}
 
-=======
 	public void Drive(double distanceinitial, double speed) {
 		DecimalFormat df = new DecimalFormat("#.###");
 		df.setRoundingMode(RoundingMode.CEILING);
@@ -178,11 +177,7 @@ public class robotDrive {
 		DriveStraight(0,currentheading);
 
 	}
-
-	public void TurnAround() {
-		Turn(180, true);
-	}
-
+	
 	public void Turn(double angle, boolean isClockwise) {
 		double currentheading = gyro.getAngle();
 		if (isClockwise == true) {
@@ -228,5 +223,5 @@ public class robotDrive {
 	public void turnToHeading(double heading) {
 
 	}
->>>>>>> d72df7a74dc9bc7357656c7918c36a5a897ee138
+
 }

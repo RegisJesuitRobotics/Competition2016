@@ -1,21 +1,25 @@
 package org.usfirst.frc.team3729.robot;
 
-import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Relay.Direction;
+import edu.wpi.first.wpilibj.Victor;
 
 public class Shooter {
-	CANTalon AcceleratorRight;
-	CANTalon AcceleratorLeft;
+	Victor AcceleratorRight;
+	Victor AcceleratorLeft;
 	Relay feederRight, feederLeft, elevatorLeft, elevatorRight;
+	DigitalInput Fore, Aft;
 
 	public Shooter() {
-		AcceleratorLeft = new CANTalon(1);
-		AcceleratorRight = new CANTalon(0);
-		feederRight = new Relay(0);
-		feederLeft = new Relay(1);
-		elevatorLeft = new Relay(2);
-		elevatorRight = new Relay(3);
+		AcceleratorLeft = new Victor(3);
+		AcceleratorRight = new Victor(2);
+		feederRight = new Relay(7);
+		feederLeft = new Relay(6);
+		elevatorLeft = new Relay(8);
+		elevatorRight = new Relay(9);
+		Fore = new DigitalInput(4);
+		Aft = new DigitalInput(5);
 	}
 
 	public void Feed(int feedDirection) {
@@ -47,10 +51,10 @@ public class Shooter {
 	}
 
 	public void Elevate(int elevateDirection) {
-		if (elevateDirection == 1) {
+		if (elevateDirection == 1 && Fore.get() == true) {
 			elevatorLeft.setDirection(Direction.kForward);
 			elevatorRight.setDirection(Direction.kForward);
-		} else if (elevateDirection == -1) {
+		} else if (elevateDirection == -1 && Aft.get() == true) {	
 			elevatorLeft.setDirection(Direction.kReverse);
 			elevatorRight.setDirection(Direction.kReverse);
 		} else {

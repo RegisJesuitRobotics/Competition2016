@@ -8,8 +8,8 @@ public class Arm {
 	Victor LeftArmMotor, RightArmMotor;
 
 	public Arm() {
-		LeftArmMotor = new Victor(0);
-		RightArmMotor = new Victor(1);
+		LeftArmMotor = new Victor(1);
+		RightArmMotor = new Victor(0);
 
 	}
 
