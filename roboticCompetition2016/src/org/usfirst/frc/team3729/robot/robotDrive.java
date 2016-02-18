@@ -200,7 +200,7 @@ public class robotDrive {
 				RightMotor1.set(-.5);
 				RightMotor2.set(-.5);
 				System.out.println(gyro.getAngle());
-			} while (gyro.getAngle() >= angle - currentheading + 31);
+			} while (gyro.getAngle() >= angle - currentheading + 21);//changed from 31
 			LeftMotor1.set(0);
 			LeftMotor2.set(0);
 			RightMotor1.set(0);
