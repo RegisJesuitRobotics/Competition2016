@@ -14,10 +14,10 @@ public class Shooter {
 	public Shooter() {
 		AcceleratorLeft = new Victor(3);
 		AcceleratorRight = new Victor(2);
-		feederRight = new Relay(7);
-		feederLeft = new Relay(6);
-		elevatorLeft = new Relay(8);
-		elevatorRight = new Relay(9);
+		feederRight = new Relay(1);
+		feederLeft = new Relay(0);
+		elevatorLeft = new Relay(2);
+		elevatorRight = new Relay(3);
 		Fore = new DigitalInput(4);
 		Aft = new DigitalInput(5);
 	}
@@ -25,13 +25,17 @@ public class Shooter {
 	public void Feed(int feedDirection) {
 		if (feedDirection == 1) {
 			// set motors to intake
+			System.out.println("kforward");
+
 			feederRight.setDirection(Direction.kForward);
 			feederLeft.setDirection(Direction.kReverse);
 		} else if (feedDirection == 0) {
 			// set motors to output
+			System.out.println("kreverse");
 			feederRight.setDirection(Direction.kReverse);
 			feederLeft.setDirection(Direction.kForward);
 		} else {
+			System.out.println("stop");
 			// set motors to 0
 			feederRight.stopMotor();
 			feederLeft.stopMotor();
@@ -54,7 +58,7 @@ public class Shooter {
 		if (elevateDirection == 1 && Fore.get() == true) {
 			elevatorLeft.setDirection(Direction.kForward);
 			elevatorRight.setDirection(Direction.kForward);
-		} else if (elevateDirection == -1 && Aft.get() == true) {	
+		} else if (elevateDirection == -1 && Aft.get() == true) {
 			elevatorLeft.setDirection(Direction.kReverse);
 			elevatorRight.setDirection(Direction.kReverse);
 		} else {

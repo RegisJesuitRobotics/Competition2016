@@ -71,4 +71,8 @@ public class XboxController extends Joystick {
 			return -1;
 		}
 	}
+	
+	public int GetRawPOV(){
+		return super.getPOV();
+	}
 }

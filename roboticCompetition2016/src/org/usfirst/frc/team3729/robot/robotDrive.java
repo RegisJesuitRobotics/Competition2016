@@ -31,7 +31,7 @@ public class robotDrive {
 	}
 
 	public void arcadeDrive() {
-
+		
 		// This limits the power of the motor, it is a percentage
 		// This SHOULD NOT go above 1.0, not should it be negative
 		double motorLimiterRatioinital = .5;
@@ -145,7 +145,7 @@ public class robotDrive {
 
 	}
 
-//<<<<<HEAD (whateve that means)
+	// <<<<<HEAD (whateve that means)
 	public void TurnAround() {
 		gyro.reset();
 		do {
@@ -174,10 +174,10 @@ public class robotDrive {
 			dat = new Date();
 			System.out.println(dat.compareTo(future));
 		}
-		DriveStraight(0,currentheading);
+		DriveStraight(0, currentheading);
 
 	}
-	
+
 	public void Turn(double angle, boolean isClockwise) {
 		double currentheading = gyro.getAngle();
 		if (isClockwise == true) {

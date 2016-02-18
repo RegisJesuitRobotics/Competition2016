@@ -154,10 +154,14 @@ public class Robot extends IterativeRobot {
 		} else {
 			this.shooter.Shoot(false);
 		}
+
+		//System.out.println("RawPOV: " + xbox.GetRawPOV());
 		// Listen for feed
-		if (xbox.getPOV() == 1) {
+		if (xbox.GetRawPOV() == 0) {
+			System.out.println("Feed 1: " + xbox.GetRawPOV());
 			this.shooter.Feed(1);
-		} else if (xbox.getPOV() == 0) {
+		} else if (xbox.GetRawPOV() == 180) {
+			System.out.println("Feed 0: " + xbox.GetRawPOV());			
 			this.shooter.Feed(0);
 		} else {
 			this.shooter.Feed(42069);
