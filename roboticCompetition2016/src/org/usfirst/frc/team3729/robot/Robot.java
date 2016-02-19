@@ -149,7 +149,7 @@ shooter.Shootautonomous();
 	public void teleopPeriodic() {
 		drive.arcadeDrive();
 		// Listen for shoot
-		if (xbox.GetLeftTrigger() > .2) {
+		if (xbox.GetRightTrigger() > .2) {
 			this.shooter.Shoot(true);
 		} else {
 			this.shooter.Shoot(false);
