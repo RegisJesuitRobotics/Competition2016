@@ -149,19 +149,19 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		drive.arcadeDrive();
 		// Listen for shoot
-		if (xbox.GetLeftBumper() == true) {
+		if (xbox.GetLeftTrigger() > .2) {
 			this.shooter.Shoot(true);
 		} else {
 			this.shooter.Shoot(false);
 		}
 
-		//System.out.println("RawPOV: " + xbox.GetRawPOV());
+		// System.out.println("RawPOV: " + xbox.GetRawPOV());
 		// Listen for feed
-		if (xbox.GetRawPOV() == 0) {
-			System.out.println("Feed 1: " + xbox.GetRawPOV());
+		if (xbox.GetRightBumper() == true) {
+			System.out.println("Feed 1: ");
 			this.shooter.Feed(1);
-		} else if (xbox.GetRawPOV() == 180) {
-			System.out.println("Feed 0: " + xbox.GetRawPOV());			
+		} else if (xbox.GetLeftBumper() == true) {
+			System.out.println("Feed 0: ");
 			this.shooter.Feed(0);
 		} else {
 			this.shooter.Feed(42069);
@@ -178,6 +178,14 @@ public class Robot extends IterativeRobot {
 		}
 		if (xbox.GetStart() == true) {
 			drive.TurnAround();
+		}
+
+		if (xbox.GetB() == true) {
+			this.shooter.Elevate(1);
+		} else if (xbox.GetX() == true) {
+			this.shooter.Elevate(-1);
+		} else {
+			this.shooter.Elevate(0);
 		}
 	}
 

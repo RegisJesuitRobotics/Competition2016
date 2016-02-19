@@ -8,7 +8,7 @@ public class Shooter {
 	Victor AcceleratorRight;
 	Victor AcceleratorLeft;
 	Relay feederRight, feederLeft, elevator;
-	DigitalInput Fore, Aft;
+	DigitalInput Fore, Aft ;
 
 	public Shooter() {
 		AcceleratorLeft = new Victor(3);
@@ -16,8 +16,8 @@ public class Shooter {
 		feederRight = new Relay(1);
 		feederLeft = new Relay(2);
 		elevator= new Relay(0);
-		Fore = new DigitalInput(4);
-		Aft = new DigitalInput(5);
+		Fore = new DigitalInput(8);
+		Aft = new DigitalInput(0);
 	}
 
 	public void Feed(int feed) {
@@ -45,8 +45,8 @@ public class Shooter {
 	public void Shoot(boolean shouldShoot) {
 		// rev then feed
 		if (shouldShoot == true) {
-			AcceleratorLeft.set(1);
-			AcceleratorRight.set(-1);
+			AcceleratorLeft.set(-1);
+			AcceleratorRight.set(1);
 			this.Feed(1);
 		} else {
 			AcceleratorLeft.set(0);
@@ -61,6 +61,9 @@ public class Shooter {
 			elevator.set(Relay.Value.kReverse);
 		} else {
 			elevator.stopMotor();
+			System.out.println(Fore.get()+ " fore");
+			System.out.println(Aft.get() + "aft");
 		}
 	}
-}
+	
+	}
