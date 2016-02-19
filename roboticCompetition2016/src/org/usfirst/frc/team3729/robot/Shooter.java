@@ -2,6 +2,7 @@ package org.usfirst.frc.team3729.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Victor;
 
 public class Shooter {
@@ -65,5 +66,15 @@ public class Shooter {
 			System.out.println(Aft.get() + "aft");
 		}
 	}
-	
+	public void Shootautonomous() {
+		this.Elevate(1);
+		AcceleratorLeft.set(1);
+		AcceleratorRight.set(-1);
+		Timer.delay(1);
+		this.Feed(1);
+		Timer.delay(2);
+		AcceleratorLeft.set(0);
+		AcceleratorRight.set(0);
+		this.Feed(0);
+		this.Elevate(0);}
 	}
