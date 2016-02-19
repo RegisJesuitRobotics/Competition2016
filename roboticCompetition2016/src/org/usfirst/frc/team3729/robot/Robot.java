@@ -3,8 +3,11 @@ package org.usfirst.frc.team3729.robot;
 
 import javax.naming.AuthenticationNotSupportedException;
 
+import com.ni.vision.NIVision;
+
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -30,7 +33,8 @@ public class Robot extends IterativeRobot {
 	Shooter shooter;
 	Arm arm;
 	AnalogGyro gyro;
-	// USBCamera cam;
+	USBCamera cam;
+	NIVision.Image frame;
 	CANTalon RightMotor1, LeftMotor1, RightMotor2, LeftMotor2;
 	boolean automove;
 
@@ -52,8 +56,9 @@ public class Robot extends IterativeRobot {
 		shooter = new Shooter();
 		arm = new Arm();
 
-		// cam = new USBCamera();
-
+		cam = new USBCamera("cam0");
+		cam.startCapture();
+		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 	}
 
 	/**
@@ -147,6 +152,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		cam.getImage(frame);
+		CameraServer.getInstance().setImage(frame); // This sends it to the
+													// SmartDashboard
 		drive.arcadeDrive();
 		// Listen for shoot
 		if (xbox.GetLeftTrigger() > .2) {
