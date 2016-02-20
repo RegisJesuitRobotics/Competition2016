@@ -90,7 +90,7 @@ public class robotDrive {
 			System.out.println("move backwards");
 			// Move Backwards
 		}
-		if (_xbox.GetRightTrigger() > deadZone) {
+		if (_xbox.GetLeftTrigger() > deadZone) {
 			motorLimiterRatio += (_xbox.GetRightTrigger() * .5);
 		} else {
 			motorLimiterRatio = motorLimiterRatioinital;

@@ -33,10 +33,11 @@ public class Robot extends IterativeRobot {
 	Shooter shooter;
 	Arm arm;
 	AnalogGyro gyro;
-	USBCamera cam;
+	//USBCamera cam;
 	NIVision.Image frame;
 	CANTalon RightMotor1, LeftMotor1, RightMotor2, LeftMotor2;
 	boolean automove;
+	int currentCamera, driveCamera, shootCamera;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -56,9 +57,13 @@ public class Robot extends IterativeRobot {
 		shooter = new Shooter();
 		arm = new Arm();
 
-		cam = new USBCamera("cam0");
-		cam.startCapture();
+		//cam = new USBCamera("cam0");
+		//cam.startCapture();
 		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+		driveCamera = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+		shootCamera = NIVision.IMAQdxOpenCamera("cam1", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+		currentCamera = driveCamera;
+		NIVision.IMAQdxConfigureGrab(driveCamera);
 	}
 
 	/**
@@ -152,12 +157,28 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		cam.getImage(frame);
-		CameraServer.getInstance().setImage(frame); // This sends it to the
+	//	cam.getImage(frame);
+	//	CameraServer.getInstance().setImage(frame); // This sends it to the
 													// SmartDashboard
+	//Toggle Cameras
+		
+		if(xbox.GetBack() == true){
+			if(currentCamera == shootCamera){
+				NIVision.IMAQdxStopAcquisition(currentCamera);
+				currentCamera = driveCamera;
+				NIVision.IMAQdxConfigureGrab(currentCamera);
+			} else if (currentCamera == driveCamera){
+				NIVision.IMAQdxStopAcquisition(currentCamera);
+				currentCamera = shootCamera;
+				NIVision.IMAQdxConfigureGrab(currentCamera);
+			}
+		}
+		NIVision.IMAQdxGrab(currentCamera, frame, 1);
+		CameraServer.getInstance().setImage(frame);
+		
 		drive.arcadeDrive();
 		// Listen for shoot
-		if (xbox.GetLeftTrigger() > .2) {
+		if (xbox.GetRightTrigger() > .2) {
 			this.shooter.Shoot(true);
 		} else {
 			this.shooter.Shoot(false);
@@ -202,6 +223,20 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		
+		if(xbox.GetBack() == true){
+			if(currentCamera == shootCamera){
+				NIVision.IMAQdxStopAcquisition(currentCamera);
+				currentCamera = driveCamera;
+				NIVision.IMAQdxConfigureGrab(currentCamera);
+			} else if (currentCamera == driveCamera){
+				NIVision.IMAQdxStopAcquisition(currentCamera);
+				currentCamera = shootCamera;
+				NIVision.IMAQdxConfigureGrab(currentCamera);
+			}
+		}
+		NIVision.IMAQdxGrab(currentCamera, frame, 1);
+		CameraServer.getInstance().setImage(frame);
 
 	}
 
