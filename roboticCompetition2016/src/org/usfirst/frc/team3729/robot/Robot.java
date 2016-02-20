@@ -104,7 +104,7 @@ public class Robot extends IterativeRobot {
 				drive.Stop();
 				drive.Turn(90, false);
 				drive.Stop();
-shooter.Shootautonomous();
+				shooter.Shootautonomous();
 				automove = false;
 			}
 			break;
@@ -115,7 +115,7 @@ shooter.Shootautonomous();
 				drive.Stop();
 				drive.Turn(45, true);
 				drive.Stop();
-shooter.Shootautonomous();
+				shooter.Shootautonomous();
 				automove = false;
 			}
 			break;
