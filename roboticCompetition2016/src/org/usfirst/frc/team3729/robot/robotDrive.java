@@ -9,6 +9,7 @@ import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 
 public class robotDrive {
@@ -19,19 +20,20 @@ public class robotDrive {
 	double motorspeed = 18.52;
 	double acceleration;
 	Calendar cal;
+	DriverStation driverStation;
 
-	public robotDrive(XboxController xbox, AnalogGyro gyro_) {
+	public robotDrive(XboxController xbox, AnalogGyro gyro_, DriverStation driverStation) {
 		RightMotor1 = new CANTalon(2);
 		RightMotor2 = new CANTalon(4);
 		LeftMotor1 = new CANTalon(1);
 		LeftMotor2 = new CANTalon(3);
 		this._xbox = xbox;
 		this.gyro = gyro_;
-
+		this.driverStation = driverStation;
 	}
 
 	public void arcadeDrive() {
-		
+
 		// This limits the power of the motor, it is a percentage
 		// This SHOULD NOT go above 1.0, not should it be negative
 		double motorLimiterRatioinital = .5;
@@ -90,7 +92,7 @@ public class robotDrive {
 			System.out.println("move backwards");
 			// Move Backwards
 		}
-		if (_xbox.GetLeftTrigger() > deadZone) {
+		if (_xbox.GetRightTrigger() > deadZone) {
 			motorLimiterRatio += (_xbox.GetRightTrigger() * .5);
 		} else {
 			motorLimiterRatio = motorLimiterRatioinital;
@@ -153,7 +155,7 @@ public class robotDrive {
 			LeftMotor2.set(.5);
 			RightMotor1.set(-.5);
 			RightMotor2.set(.5);
-		} while (gyro.getAngle() <= 180);
+		} while (gyro.getAngle() <= 180 && driverStation.isAutonomous() == true);
 		// leftMotorInput = turnInput;
 		// rightMotorInput = -turnInput;
 		// System.out.println("spin right");
@@ -187,7 +189,7 @@ public class robotDrive {
 				RightMotor1.set(.5);
 				RightMotor2.set(.5);
 				System.out.println(gyro.getAngle());
-			} while (gyro.getAngle() <= currentheading + angle - 21);
+			} while (gyro.getAngle() <= currentheading + angle - 21 && driverStation.isAutonomous() == true);
 			LeftMotor1.set(0);
 			LeftMotor2.set(0);
 			RightMotor1.set(0);
@@ -200,7 +202,9 @@ public class robotDrive {
 				RightMotor1.set(-.5);
 				RightMotor2.set(-.5);
 				System.out.println(gyro.getAngle());
-			} while (gyro.getAngle() >= angle - currentheading + 21);//changed from 31
+			} while (gyro.getAngle() >= angle - currentheading + 21 && driverStation.isAutonomous() == true);// changed
+			// from
+			// 31
 			LeftMotor1.set(0);
 			LeftMotor2.set(0);
 			RightMotor1.set(0);
