@@ -162,7 +162,13 @@ public class robotDrive {
 
 	}
 
-	public void Drive(double distanceinitial, double speed) {
+	public void DriveAutonomous(double distanceinitial, double speed) {
+		if (this.driverStation.isAutonomous()){
+			this.Drive(distanceinitial, speed);
+		}
+	}
+	
+	public void Drive(double distanceinitial, double speed){
 		DecimalFormat df = new DecimalFormat("#.###");
 		df.setRoundingMode(RoundingMode.CEILING);
 		double time = Math.round(circumference * 1000 * distanceinitial / (motorspeed * speed));
@@ -180,7 +186,13 @@ public class robotDrive {
 
 	}
 
-	public void Turn(double angle, boolean isClockwise) {
+	public void TurnAutonomous(double angle, boolean isClockwise){
+		if (this.driverStation.isAutonomous()){
+			this.Turn(angle, isClockwise);
+		}
+	}
+	
+	public void Turn(double angle, boolean isClockwise){
 		double currentheading = gyro.getAngle();
 		if (isClockwise == true) {
 			do {
@@ -212,6 +224,12 @@ public class robotDrive {
 		}
 	}
 
+	public void StopAutonomous() {
+		if (driverStation.isAutonomous()){
+			this.Stop();
+		}
+	}
+	
 	public void Stop() {
 		LeftMotor1.set(-.2);
 		LeftMotor2.set(-.2);

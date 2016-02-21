@@ -68,8 +68,8 @@ public class Shooter {
 	}
 	public void Shootautonomous() {
 		this.Elevate(1);
-		AcceleratorLeft.set(1);
-		AcceleratorRight.set(-1);
+		AcceleratorLeft.set(-1);
+		AcceleratorRight.set(1);
 		Timer.delay(1);
 		this.Feed(1);
 		Timer.delay(2);

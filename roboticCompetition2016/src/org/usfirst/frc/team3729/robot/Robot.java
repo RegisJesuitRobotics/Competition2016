@@ -57,6 +57,10 @@ public class Robot extends IterativeRobot {
 		shooter = new Shooter();
 		arm = new Arm();
 
+			
+		gyro.initGyro();
+		gyro.calibrate();
+		gyro.reset();
 		// cam = new USBCamera("cam0");
 		// cam.startCapture();
 		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
@@ -88,9 +92,7 @@ public class Robot extends IterativeRobot {
 		LeftMotor1 = new CANTalon(1);
 		LeftMotor2 = new CANTalon(4);
 		automove = true;
-		gyro.initGyro();
-		gyro.calibrate();
-		gyro.reset();
+		
 	}
 
 	/**
@@ -101,14 +103,14 @@ public class Robot extends IterativeRobot {
 		switch (autoSelected) {
 		case autonomousPath1:
 			if (automove == true) {
-				drive.Drive(8, .5);
-				drive.Stop();
-				drive.Turn(90, true);
-				drive.Stop();
-				drive.Drive(8.5, .5);
-				drive.Stop();
-				drive.Turn(90, false);
-				drive.Stop();
+				drive.DriveAutonomous(8, .5);
+				drive.StopAutonomous();
+				drive.TurnAutonomous(90, true);
+				drive.StopAutonomous();
+				drive.DriveAutonomous(.5, .5);
+				drive.StopAutonomous();
+				drive.TurnAutonomous(90, false);
+				drive.StopAutonomous();
 				shooter.Shootautonomous();
 				automove = false;
 			}
@@ -116,10 +118,10 @@ public class Robot extends IterativeRobot {
 
 		case autonomousPath2:
 			if (automove == true) {
-				drive.Drive(13.5, .5);
-				drive.Stop();
-				drive.Turn(45, true);
-				drive.Stop();
+				drive.DriveAutonomous(13.5, .5);
+				drive.StopAutonomous();
+				drive.TurnAutonomous(45, true);
+				drive.StopAutonomous();
 				shooter.Shootautonomous();
 				automove = false;
 			}
@@ -128,11 +130,8 @@ public class Robot extends IterativeRobot {
 		case autonomousPath3:
 			if (automove == true) {
 
-				drive.Drive(10, .7);
-				drive.Stop();
-				drive.TurnAround();
-				drive.Drive(2, .7);
-				drive.Stop();
+				drive.DriveAutonomous(10, .45);
+				drive.StopAutonomous();
 				automove = false;
 			}
 			break;
@@ -141,8 +140,8 @@ public class Robot extends IterativeRobot {
 		default:
 			if (automove == true) {
 
-				drive.Drive(10, .7);
-				drive.Stop();
+				drive.DriveAutonomous(10, .45);
+				drive.StopAutonomous();
 
 				automove = false;
 			}
