@@ -105,11 +105,11 @@ public class Robot extends IterativeRobot {
 			if (automove == true) {
 				drive.DriveAutonomous(8, .5);
 				drive.StopAutonomous();
-				drive.TurnAutonomous(90, true);
+				drive.SpinAutonomous(90, true);
 				drive.StopAutonomous();
 				drive.DriveAutonomous(.5, .5);
 				drive.StopAutonomous();
-				drive.TurnAutonomous(90, false);
+				drive.SpinAutonomous(90, false);
 				drive.StopAutonomous();
 				shooter.Shootautonomous();
 				automove = false;
@@ -120,7 +120,7 @@ public class Robot extends IterativeRobot {
 			if (automove == true) {
 				drive.DriveAutonomous(13.5, .5);
 				drive.StopAutonomous();
-				drive.TurnAutonomous(45, true);
+				drive.SpinAutonomous(45, true);
 				drive.StopAutonomous();
 				shooter.Shootautonomous();
 				automove = false;

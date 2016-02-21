@@ -1,12 +1,8 @@
 package org.usfirst.frc.team3729.robot;
 
-import java.lang.*;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.*;
-
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -21,6 +17,11 @@ public class robotDrive {
 	double acceleration;
 	Calendar cal;
 	DriverStation driverStation;
+
+	/**
+	 * This is used to control the spin speed of the robot.
+	 */
+	final double spinSpeed = .75;
 
 	public robotDrive(XboxController xbox, AnalogGyro gyro_, DriverStation driverStation) {
 		RightMotor1 = new CANTalon(2);
@@ -147,7 +148,6 @@ public class robotDrive {
 
 	}
 
-	// <<<<<HEAD (whateve that means)
 	public void TurnAround() {
 		gyro.reset();
 		do {
@@ -163,12 +163,12 @@ public class robotDrive {
 	}
 
 	public void DriveAutonomous(double distanceinitial, double speed) {
-		if (this.driverStation.isAutonomous()){
+		if (this.driverStation.isAutonomous()) {
 			this.Drive(distanceinitial, speed);
 		}
 	}
-	
-	public void Drive(double distanceinitial, double speed){
+
+	public void Drive(double distanceinitial, double speed) {
 		DecimalFormat df = new DecimalFormat("#.###");
 		df.setRoundingMode(RoundingMode.CEILING);
 		double time = Math.round(circumference * 1000 * distanceinitial / (motorspeed * speed));
@@ -186,20 +186,20 @@ public class robotDrive {
 
 	}
 
-	public void TurnAutonomous(double angle, boolean isClockwise){
-		if (this.driverStation.isAutonomous()){
-			this.Turn(angle, isClockwise);
+	public void SpinAutonomous(double angle, boolean isClockwise) {
+		if (this.driverStation.isAutonomous()) {
+			this.Spin(angle, isClockwise);
 		}
 	}
-	
-	public void Turn(double angle, boolean isClockwise){
+
+	public void Spin(double angle, boolean isClockwise) {
 		double currentheading = gyro.getAngle();
 		if (isClockwise == true) {
 			do {
-				LeftMotor1.set(.5);
-				LeftMotor2.set(.5);
-				RightMotor1.set(.5);
-				RightMotor2.set(.5);
+				LeftMotor1.set(spinSpeed);
+				LeftMotor2.set(spinSpeed);
+				RightMotor1.set(spinSpeed);
+				RightMotor2.set(spinSpeed);
 				System.out.println(gyro.getAngle());
 			} while (gyro.getAngle() <= currentheading + angle - 21 && driverStation.isAutonomous() == true);
 			LeftMotor1.set(0);
@@ -209,10 +209,10 @@ public class robotDrive {
 		}
 		if (isClockwise == false) {
 			do {
-				LeftMotor1.set(-.5);
-				LeftMotor2.set(-.5);
-				RightMotor1.set(-.5);
-				RightMotor2.set(-.5);
+				LeftMotor1.set(-spinSpeed);
+				LeftMotor2.set(-spinSpeed);
+				RightMotor1.set(-spinSpeed);
+				RightMotor2.set(-spinSpeed);
 				System.out.println(gyro.getAngle());
 			} while (gyro.getAngle() >= angle - currentheading + 21 && driverStation.isAutonomous() == true);// changed
 			// from
@@ -225,11 +225,11 @@ public class robotDrive {
 	}
 
 	public void StopAutonomous() {
-		if (driverStation.isAutonomous()){
+		if (driverStation.isAutonomous()) {
 			this.Stop();
 		}
 	}
-	
+
 	public void Stop() {
 		LeftMotor1.set(-.2);
 		LeftMotor2.set(-.2);
