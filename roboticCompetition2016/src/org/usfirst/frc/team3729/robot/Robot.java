@@ -57,12 +57,10 @@ public class Robot extends IterativeRobot {
 		shooter = new Shooter();
 		arm = new Arm();
 
-			
 		gyro.initGyro();
 		gyro.calibrate();
 		gyro.reset();
-		// cam = new USBCamera("cam0");
-		// cam.startCapture();
+
 		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 		driveCamera = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 		shootCamera = NIVision.IMAQdxOpenCamera("cam1", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
@@ -84,15 +82,17 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		autoSelected = (String) chooser.getSelected();
-		// autoSelected = SmartDashboard.getString("Auto Selector",
-		// defaultAuto);
+
 		System.out.println("Auto selected: " + autoSelected);
 		RightMotor1 = new CANTalon(2);
 		RightMotor2 = new CANTalon(3);
 		LeftMotor1 = new CANTalon(1);
 		LeftMotor2 = new CANTalon(4);
 		automove = true;
-		
+
+		gyro.initGyro();
+		gyro.calibrate();
+		gyro.reset();
 	}
 
 	/**
@@ -103,11 +103,15 @@ public class Robot extends IterativeRobot {
 		switch (autoSelected) {
 		case autonomousPath1:
 			if (automove == true) {
-				drive.DriveAutonomous(8, .5);
+				System.out.println("gyro start heading:" + gyro.getAngle());
+				gyro.reset();
+				System.out.println("gyro after reset:" + gyro.getAngle());
+
+				drive.DriveAutonomous(10, .5);
 				drive.StopAutonomous();
 				drive.SpinAutonomous(90, true);
 				drive.StopAutonomous();
-				drive.DriveAutonomous(.5, .5);
+				drive.DriveAutonomous(5, .5);
 				drive.StopAutonomous();
 				drive.SpinAutonomous(90, false);
 				drive.StopAutonomous();
@@ -190,6 +194,9 @@ public class Robot extends IterativeRobot {
 		} else if (xbox.GetLeftBumper() == true) {
 			System.out.println("Feed 0: ");
 			this.shooter.Feed(0);
+		} else if (xbox.GetPOV() == 1 && xbox.GetLeftTrigger() > .2) {//
+			this.shooter.Feed(3);
+			System.out.println(xbox.GetPOV());
 		} else {
 			this.shooter.Feed(42069);
 			// non 1 non 0 number stops feeder

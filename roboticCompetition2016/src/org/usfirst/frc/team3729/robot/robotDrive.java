@@ -23,6 +23,11 @@ public class robotDrive {
 	 */
 	final double spinSpeed = .75;
 
+	/**
+	 * This is used to compensate for the robot not spinning enough
+	 */
+	final int spinCorrection = 0;
+
 	public robotDrive(XboxController xbox, AnalogGyro gyro_, DriverStation driverStation) {
 		RightMotor1 = new CANTalon(2);
 		RightMotor2 = new CANTalon(4);
@@ -200,8 +205,8 @@ public class robotDrive {
 				LeftMotor2.set(spinSpeed);
 				RightMotor1.set(spinSpeed);
 				RightMotor2.set(spinSpeed);
-				System.out.println(gyro.getAngle());
-			} while (gyro.getAngle() <= currentheading + angle - 21 && driverStation.isAutonomous() == true);
+				System.out.println("current: " + gyro.getAngle() + " wanted: " + (angle + currentheading));
+			} while (gyro.getAngle() <= currentheading + angle - spinCorrection && driverStation.isAutonomous() == true);
 			LeftMotor1.set(0);
 			LeftMotor2.set(0);
 			RightMotor1.set(0);
@@ -213,8 +218,8 @@ public class robotDrive {
 				LeftMotor2.set(-spinSpeed);
 				RightMotor1.set(-spinSpeed);
 				RightMotor2.set(-spinSpeed);
-				System.out.println(gyro.getAngle());
-			} while (gyro.getAngle() >= angle - currentheading + 21 && driverStation.isAutonomous() == true);// changed
+				System.out.println("current: " + gyro.getAngle() + " wanted: " + (angle - currentheading));
+			} while (gyro.getAngle() >= angle - currentheading + spinCorrection && driverStation.isAutonomous() == true);// changed
 			// from
 			// 31
 			LeftMotor1.set(0);
