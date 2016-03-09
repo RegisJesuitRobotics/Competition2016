@@ -34,10 +34,10 @@ public class Robot extends IterativeRobot {
 	Arm arm;
 	AnalogGyro gyro;
 	// USBCamera cam;
-	NIVision.Image frame;
+	//NIVision.Image frame;
 	CANTalon RightMotor1, LeftMotor1, RightMotor2, LeftMotor2;
 	boolean automove;
-	int currentCamera, driveCamera, shootCamera;
+	//int currentCamera, driveCamera, shootCamera;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -61,11 +61,11 @@ public class Robot extends IterativeRobot {
 		gyro.calibrate();
 		gyro.reset();
 
-		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+		/*frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 		driveCamera = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 		shootCamera = NIVision.IMAQdxOpenCamera("cam1", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 		currentCamera = driveCamera;
-		NIVision.IMAQdxConfigureGrab(driveCamera);
+		NIVision.IMAQdxConfigureGrab(driveCamera);*/
 	}
 
 	/**
@@ -165,7 +165,7 @@ public class Robot extends IterativeRobot {
 		// Toggle Cameras
 		drive.arcadeDrive();
 
-		if (xbox.GetBack() == true) {
+	/*	if (xbox.GetBack() == true) {
 			if (currentCamera == shootCamera) {
 				NIVision.IMAQdxStopAcquisition(currentCamera);
 				currentCamera = driveCamera;
@@ -175,9 +175,9 @@ public class Robot extends IterativeRobot {
 				currentCamera = shootCamera;
 				NIVision.IMAQdxConfigureGrab(currentCamera);
 			}
-		}
-		NIVision.IMAQdxGrab(currentCamera, frame, 1);
-		CameraServer.getInstance().setImage(frame);
+		}*/
+		/*NIVision.IMAQdxGrab(currentCamera, frame, 1);
+		CameraServer.getInstance().setImage(frame);*/
 
 		// Listen for shoot
 		if (xbox.GetLeftTrigger() > .2) {
@@ -229,7 +229,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 
-		if (xbox.GetBack() == true) {
+		/*if (xbox.GetBack() == true) {
 			if (currentCamera == shootCamera) {
 				NIVision.IMAQdxStopAcquisition(currentCamera);
 				currentCamera = driveCamera;
@@ -241,7 +241,7 @@ public class Robot extends IterativeRobot {
 			}
 		}
 		NIVision.IMAQdxGrab(currentCamera, frame, 1);
-		CameraServer.getInstance().setImage(frame);
+		CameraServer.getInstance().setImage(frame);*/
 
 	}
 

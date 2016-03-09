@@ -29,10 +29,10 @@ public class robotDrive {
 	final int spinCorrection = 0;
 
 	public robotDrive(XboxController xbox, AnalogGyro gyro_, DriverStation driverStation) {
-		RightMotor1 = new CANTalon(2);
-		RightMotor2 = new CANTalon(4);
+		RightMotor1 = new CANTalon(3);
+		RightMotor2 = new CANTalon(2);
 		LeftMotor1 = new CANTalon(1);
-		LeftMotor2 = new CANTalon(3);
+		LeftMotor2 = new CANTalon(4);
 		this._xbox = xbox;
 		this.gyro = gyro_;
 		this.driverStation = driverStation;
