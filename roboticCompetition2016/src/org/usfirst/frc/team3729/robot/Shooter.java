@@ -2,6 +2,7 @@ package org.usfirst.frc.team3729.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Victor;
 
@@ -14,9 +15,9 @@ public class Shooter {
 	public Shooter() {
 		AcceleratorLeft = new Victor(3);
 		AcceleratorRight = new Victor(2);
-		feederRight = new Relay(1);
-		feederLeft = new Relay(2);
-		elevator = new Relay(0);
+		feederRight = new Relay(0, Direction.kBoth);
+		feederLeft = new Relay(1,Direction.kBoth);
+		elevator = new Relay(2);
 		Fore = new DigitalInput(9);
 		Aft = new DigitalInput(0);
 		Intake = new DigitalInput(8);
@@ -24,25 +25,25 @@ public class Shooter {
 	}
 
 	public void Feed(int feed) {
-		if (feed == 1 && Intake.get() == false) {
+		if (feed == 1){// && Intake.get() == false) {
 			// set motors to intake
-			System.out.println("kforward");
+			//System.out.println("kforward");
 
 			feederRight.set(Relay.Value.kForward);
 			feederLeft.set(Relay.Value.kReverse);
 		} else if (feed == 0) {
 			// set motors to output
-			System.out.println("kreverse");
+			//System.out.println("kreverse");
 			feederRight.set(Relay.Value.kReverse);
 			feederLeft.set(Relay.Value.kForward);
 
-		} else if (feed == 3) {
+		} /*else if (feed == 3) {
 			feederRight.set(Relay.Value.kForward);
 			feederLeft.set(Relay.Value.kReverse);
 		}else if ((feed!=1||feed!=2) &&Intake.get()==true){
 			feederRight.set(Relay.Value.kReverse);
 			feederLeft.set(Relay.Value.kForward);
-		}
+		}*/
 		else {
 			System.out.println("stop");
 			// set motors to 0
