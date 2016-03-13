@@ -1,7 +1,7 @@
 
 package org.usfirst.frc.team3729.robot;
 
-import javax.naming.AuthenticationNotSupportedException;
+//import javax.naming.AuthenticationNotSupportedException;
 
 import com.ni.vision.NIVision;
 
@@ -54,7 +54,7 @@ public class Robot extends IterativeRobot {
 		xbox = new XboxController(0);
 		gyro = new AnalogGyro(0);
 		drive = new robotDrive(xbox, gyro, this.m_ds);
-		shooter = new Shooter();
+		shooter = new Shooter(this.m_ds);
 		arm = new Arm();
 
 		gyro.initGyro();
@@ -107,26 +107,26 @@ public class Robot extends IterativeRobot {
 				gyro.reset();
 				System.out.println("gyro after reset:" + gyro.getAngle());
 
-				drive.DriveAutonomous(10, .5);
+				drive.DriveAutonomous(10, .35);
 				drive.StopAutonomous();
 				drive.SpinAutonomous(90, true);
 				drive.StopAutonomous();
-				drive.DriveAutonomous(5, .5);
+				drive.DriveAutonomous(5, .35);
 				drive.StopAutonomous();
 				drive.SpinAutonomous(90, false);
 				drive.StopAutonomous();
-				shooter.Shootautonomous();
+				shooter.Shootautonomous(true);
 				automove = false;
 			}
 			break;
 
 		case autonomousPath2:
 			if (automove == true) {
-				drive.DriveAutonomous(13.5, .5);
+				drive.DriveAutonomous(13.5, .35);
 				drive.StopAutonomous();
 				drive.SpinAutonomous(45, true);
 				drive.StopAutonomous();
-				shooter.Shootautonomous();
+				shooter.Shootautonomous(true);
 				automove = false;
 			}
 			break;

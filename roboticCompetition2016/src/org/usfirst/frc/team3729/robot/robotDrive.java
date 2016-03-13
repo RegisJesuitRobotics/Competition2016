@@ -17,7 +17,6 @@ public class robotDrive {
 	double acceleration;
 	Calendar cal;
 	DriverStation driverStation;
-
 	/**
 	 * This is used to control the spin speed of the robot.
 	 */
@@ -250,5 +249,5 @@ public class robotDrive {
 	public void turnToHeading(double heading) {
 
 	}
-
+	
 }
