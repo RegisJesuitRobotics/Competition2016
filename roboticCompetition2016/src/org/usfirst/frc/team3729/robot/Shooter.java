@@ -16,8 +16,8 @@ public class Shooter {
 	DriverStation driverStation;
 
 	public Shooter(DriverStation driverStation) {
-		// AcceleratorLeft = new Victor(2);
-		// AcceleratorRight = new Victor(1);
+		AcceleratorLeft = new Victor(2);
+		AcceleratorRight = new Victor(1);
 		feederRight = new Relay(1, Direction.kBoth);
 		feederLeft = new Relay(0, Direction.kBoth);
 		elevator = new Relay(2);
