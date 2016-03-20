@@ -4,6 +4,7 @@ package org.usfirst.frc.team3729.robot;
 //import javax.naming.AuthenticationNotSupportedException;
 
 import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.Image;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -33,11 +34,11 @@ public class Robot extends IterativeRobot {
 	Shooter shooter;
 	Arm arm;
 	AnalogGyro gyro;
-	// USBCamera cam;
-	//NIVision.Image frame;
+	//USBCamera cam0;
+	Image frame;
 	CANTalon RightMotor1, LeftMotor1, RightMotor2, LeftMotor2;
 	boolean automove;
-	//int currentCamera, driveCamera, shootCamera;
+	int session;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -61,11 +62,11 @@ public class Robot extends IterativeRobot {
 		gyro.calibrate();
 		gyro.reset();
 
-		/*frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-		driveCamera = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-		shootCamera = NIVision.IMAQdxOpenCamera("cam1", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-		currentCamera = driveCamera;
-		NIVision.IMAQdxConfigureGrab(driveCamera);*/
+		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+		session = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+		//NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+		//currentCamera = driveCamera;
+		NIVision.IMAQdxConfigureGrab(session);//driveCamera);*/
 	}
 
 	/**
@@ -159,11 +160,15 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		automove = false;
-		// cam.getImage(frame);
-		// CameraServer.getInstance().setImage(frame); // This sends it to the
-		// SmartDashboard
+		//cam0.getImage(frame);
+		 // This sends it to the
+		 //SmartDashboard
 		// Toggle Cameras
 		drive.arcadeDrive();
+		NIVision.IMAQdxStartAcquisition(session);
+		NIVision.IMAQdxGrab(session, frame, 1);
+		CameraServer.getInstance().setImage(frame);
+		
 
 	/*	if (xbox.GetBack() == true) {
 			if (currentCamera == shootCamera) {
@@ -176,8 +181,10 @@ public class Robot extends IterativeRobot {
 				NIVision.IMAQdxConfigureGrab(currentCamera);
 			}
 		}*/
-		/*NIVision.IMAQdxGrab(currentCamera, frame, 1);
-		CameraServer.getInstance().setImage(frame);*/
+	//	currentCamera = shootCamera;
+	//	NIVision.IMAQdxConfigureGrab(currentCamera);		
+	//	NIVision.IMAQdxGrab(currentCamera, frame, 1);
+	//	CameraServer.getInstance().setImage(frame);
 
 		// Listen for shoot
 		if (xbox.GetLeftTrigger() > .2) {

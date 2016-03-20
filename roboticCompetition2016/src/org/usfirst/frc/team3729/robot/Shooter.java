@@ -28,7 +28,7 @@ public class Shooter {
 	}
 
 	public void Feed(int feed) {
-		if (feed == 1) {// && Intake.get() == false) {
+		if (feed == 1 && Intake.get() == false) {
 			// set motors to intake
 			// System.out.println("kforward");
 
@@ -40,13 +40,14 @@ public class Shooter {
 			feederRight.set(Relay.Value.kReverse);
 			feederLeft.set(Relay.Value.kForward);
 
-		} /*
-			 * else if (feed == 3) { feederRight.set(Relay.Value.kForward);
-			 * feederLeft.set(Relay.Value.kReverse); }else if
-			 * ((feed!=1||feed!=2) &&Intake.get()==true){
-			 * feederRight.set(Relay.Value.kReverse);
-			 * feederLeft.set(Relay.Value.kForward); }
-			 */
+		} else if (feed == 3) {
+			feederRight.set(Relay.Value.kForward);
+			feederLeft.set(Relay.Value.kReverse);
+		} else if ((feed != 1 || feed != 2) && Intake.get() == true) {
+			feederRight.set(Relay.Value.kReverse);
+			feederLeft.set(Relay.Value.kForward);
+		}
+
 		else {
 			System.out.println("stop");
 			// set motors to 0
@@ -58,8 +59,8 @@ public class Shooter {
 	public void Shoot(boolean shouldShoot) {
 		// rev then feed
 		if (shouldShoot == true) {
-			AcceleratorLeft.set(-1);
-			AcceleratorRight.set(1);
+			AcceleratorLeft.set(1);
+			AcceleratorRight.set(-1);
 			this.Feed(1);
 		} else {
 			AcceleratorLeft.set(0);
@@ -68,15 +69,28 @@ public class Shooter {
 	}
 
 	public void Elevate(int elevate) {
-		if (elevate == 1) { // && Fore.get() == true{
+		//boolean position = false; // false= down true= up
+		if (elevate == 1){// && position == false) { // && Fore.get() == true{
+			//position = true;
 			elevator.set(Relay.Value.kForward);
-		} else if (elevate == -1) { // && Aft.get() == true{
+			Timer.delay(.2);
+			System.out.println("elevate forward");
+			elevator.stopMotor();
+
+		} else if (elevate == -1){//&& position == true) { // && Aft.get() == true
+		
+			//position = false;
 			elevator.set(Relay.Value.kReverse);
+			Timer.delay(.2);
+			System.out.println("elevate reverse");
+			elevator.stopMotor();
+
 		} else {
 			elevator.stopMotor();
 			System.out.println(Fore.get() + " fore");
 			System.out.println(Aft.get() + "aft");
 		}
+
 	}
 
 	public void Shootautonomous(boolean shouldShoot) {
