@@ -59,8 +59,8 @@ public class Shooter {
 	public void Shoot(boolean shouldShoot) {
 		// rev then feed
 		if (shouldShoot == true) {
-			AcceleratorLeft.set(1);
-			AcceleratorRight.set(-1);
+			AcceleratorLeft.set(-1);
+			AcceleratorRight.set(1);
 			this.Feed(1);
 		} else {
 			AcceleratorLeft.set(0);
