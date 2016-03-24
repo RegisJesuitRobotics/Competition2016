@@ -13,7 +13,7 @@ public class Arm {
 	}
 
 	public void RotateForward() {
-		LeftArmMotor.set(.5);
+		LeftArmMotor.set(-.5);
 		RightArmMotor.set(.5);
 		Timer.delay(.25);
 		LeftArmMotor.set(0);
@@ -23,7 +23,7 @@ public class Arm {
 	}
 
 	public void RotateBackward() {
-		LeftArmMotor.set(-.5);
+		LeftArmMotor.set(.5);
 		RightArmMotor.set(-.5);
 		Timer.delay(.25);
 		LeftArmMotor.set(0);

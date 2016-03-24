@@ -74,7 +74,13 @@ public class Shooter {
 			System.out.println(Aft.get() + "aft");
 		}
 	}
-
+	public void shootLow(boolean shoot){
+		if (shoot==true){
+		AcceleratorLeft.set(-.3);
+		AcceleratorRight.set(.3);
+		}
+		
+	}
 	public void Shootautonomous() {
 		this.Elevate(1);
 		AcceleratorLeft.set(-1);

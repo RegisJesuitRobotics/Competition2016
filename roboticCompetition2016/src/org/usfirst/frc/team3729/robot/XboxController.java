@@ -60,7 +60,9 @@ public class XboxController extends Joystick {
 	public double GetLeftTrigger() {
 		return super.getRawAxis(2);
 	}
-
+	public boolean GetRightClick(){
+		return super.getRawButton(10);
+	}
 	public double GetPOV() {
 		if ((super.getPOV(0) > 0) && (super.getPOV(0) < 180)) {
 			return 1;

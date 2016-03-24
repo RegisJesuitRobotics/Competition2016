@@ -33,7 +33,7 @@ public class Robot extends IterativeRobot {
 	Shooter shooter;
 	Arm arm;
 	AnalogGyro gyro;
-	// USBCamera cam;
+	// USBCamera cam;/
 	NIVision.Image frame;
 	CANTalon RightMotor1, LeftMotor1, RightMotor2, LeftMotor2;
 	boolean automove;
@@ -111,7 +111,7 @@ public class Robot extends IterativeRobot {
 				drive.StopAutonomous();
 				drive.SpinAutonomous(90, true);
 				drive.StopAutonomous();
-				drive.DriveAutonomous(5, .5);
+				drive.DriveAutonomous(8, .5);
 				drive.StopAutonomous();
 				drive.SpinAutonomous(90, false);
 				drive.StopAutonomous();
@@ -220,6 +220,13 @@ public class Robot extends IterativeRobot {
 			this.shooter.Elevate(-1);
 		} else {
 			this.shooter.Elevate(0);
+		}
+		if (xbox.GetRightClick() == true) {
+			shooter.shootLow(true);
+			
+
+		} else {
+			shooter.shootLow(false);
 		}
 	}
 
