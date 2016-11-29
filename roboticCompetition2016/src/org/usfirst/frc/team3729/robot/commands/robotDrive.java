@@ -1,16 +1,16 @@
-package org.usfirst.frc.team3729.robot;
+package org.usfirst.frc.team3729.robot.commands;
 
-import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Talon;
 
 public class robotDrive {
-	CANTalon RightMotor1, LeftMotor1, RightMotor2, LeftMotor2;
-	XboxController _xbox;
+	Talon RightMotor1, LeftMotor1, RightMotor2, LeftMotor2;
+	XboxControler _xbox;
 
-	public robotDrive(XboxController xbox) {
-		RightMotor1 = new CANTalon(2);
-		RightMotor2 = new CANTalon(3);
-		LeftMotor1 = new CANTalon(1);
-		LeftMotor2 = new CANTalon(4);
+	public robotDrive(XboxControler xbox) {
+		RightMotor1 = new Talon(2);
+		RightMotor2 = new Talon(3);
+		LeftMotor1 = new Talon(1);
+		LeftMotor2 = new Talon(0);
 		this._xbox = xbox;
 	}
 
@@ -18,7 +18,7 @@ public class robotDrive {
 
 		// This limits the power of the motor, it is a percentage
 		// This SHOULD NOT go above 1.0, not should it be negative
-		double motorLimiterRatioinital = .5;
+		double motorLimiterRatioinital = 1; // change to
 		double motorLimiterRatio = motorLimiterRatioinital;
 		double forwardInput = _xbox.GetForwardInput();
 		double turnInput = _xbox.GetTurnInput();
@@ -74,8 +74,9 @@ public class robotDrive {
 			System.out.println("move backwards");
 			// Move Backwards
 		}
+		// Speed Switch
 		if (_xbox.GetRightTrigger() > deadZone) {
-			motorLimiterRatio += (_xbox.GetRightTrigger() * .5);
+			motorLimiterRatio = (_xbox.GetRightTrigger() * 0.5);
 		} else {
 			motorLimiterRatio = motorLimiterRatioinital;
 		}
@@ -85,5 +86,40 @@ public class robotDrive {
 		LeftMotor2.set(leftMotorInput * motorLimiterRatio);
 		// System.out.println(leftMotorInput + "left");
 		// System.out.println(rightMotorInput + "right");
+	}
+
+	public void mechenumDrive() {
+		boolean leftInput = _xbox.GetLeftBumper();
+		boolean rightInput = _xbox.GetRightBumper();
+
+		// Maybe lower this
+		double motorLimiterRatioinital = 0.8;
+
+		double motorLimiterRatio = motorLimiterRatioinital;
+		double deadZone = 0.2;
+		double leftMotorInput = 1;
+		double rightMotorInput = 1;
+
+		// speed button
+		if (_xbox.GetRightTrigger() > deadZone) {
+			motorLimiterRatio = 0.4;
+		} else {
+			motorLimiterRatio = motorLimiterRatioinital;
+		}
+
+		if (leftInput == true) {
+			RightMotor1.set(rightMotorInput * motorLimiterRatio);
+			LeftMotor1.set(leftMotorInput * motorLimiterRatio);
+			RightMotor2.set(-rightMotorInput * motorLimiterRatio);
+			LeftMotor2.set(-leftMotorInput * motorLimiterRatio);
+
+		} else if (rightInput == true) {
+
+			RightMotor1.set(-rightMotorInput * motorLimiterRatio);
+			LeftMotor1.set(-leftMotorInput * motorLimiterRatio);
+			RightMotor2.set(rightMotorInput * motorLimiterRatio);
+			LeftMotor2.set(leftMotorInput * motorLimiterRatio);
+		}
+
 	}
 }

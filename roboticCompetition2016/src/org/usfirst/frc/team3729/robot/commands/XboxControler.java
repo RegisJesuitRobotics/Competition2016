@@ -1,9 +1,9 @@
-package org.usfirst.frc.team3729.robot;
+package org.usfirst.frc.team3729.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class XboxController extends Joystick {
-	public XboxController(int port) {
+public class XboxControler extends Joystick {
+	public XboxControler(int port) {
 		super(port);
 	}
 
@@ -72,3 +72,4 @@ public class XboxController extends Joystick {
 		}
 	}
 }
+
