@@ -64,9 +64,9 @@ public class Shooter {
 	}
 
 	public void Elevate(int elevate) {
-		if (elevate == 1 ){ //&& Fore.get() == true{
+		if (elevate == 1){ //&& Fore.get() == true){
 			elevator.set(Relay.Value.kForward);
-		} else if (elevate == -1 ){ //&& Aft.get() == true{
+		} else if (elevate == -1){ //&& Aft.get() == true){
 			elevator.set(Relay.Value.kReverse);
 		} else {
 			elevator.stopMotor();
@@ -76,8 +76,8 @@ public class Shooter {
 	}
 	public void shootLow(boolean shoot){
 		if (shoot==true){
-		AcceleratorLeft.set(-.3);
-		AcceleratorRight.set(.3);
+		AcceleratorLeft.set(-.30);
+		AcceleratorRight.set(.30);
 		}
 		
 	}
